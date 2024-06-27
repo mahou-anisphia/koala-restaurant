@@ -15,7 +15,7 @@ const userRoutes = require("./routes/userRoutes");
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  if (req.url === "/" || req.url === "/api") {
+  if (req.url === "/" || req.url === "/api" || req.url === "/api/v1") {
     res.status(403).send("Redirects are not allowed");
   } else {
     next();

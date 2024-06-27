@@ -1,4 +1,5 @@
--- Create User table
+-- Add location table - represent a restaurant's location
+-- add reference for user reference a location
 CREATE TABLE User (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -10,7 +11,7 @@ CREATE TABLE User (
     ModificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create Dish table
+-- no modification needed
 CREATE TABLE Dish (
     DishID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE Dish (
     ModificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create Menu table
+-- Menu should associate with one location only
 CREATE TABLE Menu (
     MenuID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE Menu (
     ModificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create MenuDish table to establish many-to-many relationship between Menu and Dish
+-- no modification needed
 CREATE TABLE MenuDish (
     MenuID INT,
     DishID INT,
@@ -41,14 +42,14 @@ CREATE TABLE MenuDish (
     FOREIGN KEY (DishID) REFERENCES Dish(DishID) ON DELETE CASCADE
 );
 
--- Create Table table
+-- add reference to location
 CREATE TABLE DiningTable (
     TableID INT AUTO_INCREMENT PRIMARY KEY,
     Capacity INT NOT NULL,
     Location VARCHAR(255)
 );
 
--- Create Reservation table
+-- add reference to location
 CREATE TABLE Reservation (
     ReservationID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
@@ -60,7 +61,7 @@ CREATE TABLE Reservation (
     FOREIGN KEY (TableID) REFERENCES DiningTable(TableID) ON DELETE CASCADE
 );
 
--- Create Order table
+-- add reference to location
 CREATE TABLE MealOrder (
     OrderID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
@@ -71,7 +72,7 @@ CREATE TABLE MealOrder (
     FOREIGN KEY (TableID) REFERENCES DiningTable(TableID) ON DELETE CASCADE
 );
 
--- Create OrderItem table
+-- add reference to location
 CREATE TABLE OrderItem (
     OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
     OrderID INT,
@@ -82,7 +83,7 @@ CREATE TABLE OrderItem (
     FOREIGN KEY (DishID) REFERENCES Dish(DishID) ON DELETE CASCADE
 );
 
--- Create Receipt table
+-- add reference to location
 CREATE TABLE Receipt (
     ReceiptID INT AUTO_INCREMENT PRIMARY KEY,
     OrderID INT,
@@ -92,7 +93,7 @@ CREATE TABLE Receipt (
     FOREIGN KEY (OrderID) REFERENCES MealOrder(OrderID) ON DELETE CASCADE
 );
 
--- Create Report table
+-- add reference to location
 CREATE TABLE Report (
     ReportID INT AUTO_INCREMENT PRIMARY KEY,
     ReportType ENUM('Daily', 'Monthly', 'Yearly') NOT NULL,
@@ -100,9 +101,43 @@ CREATE TABLE Report (
     Content TEXT
 );
 
--- Create Revenue table
+-- no need modification
 CREATE TABLE Revenue (
     RevenueID INT AUTO_INCREMENT PRIMARY KEY,
     Amount DECIMAL(10, 2) NOT NULL,
     Date DATE NOT NULL
 );
+
+
+-- Fix code:
+CREATE TABLE Location (
+    LocationID INT AUTO_INCREMENT PRIMARY KEY,
+    Address VARCHAR(255) NOT NULL,
+    City VARCHAR(255) NOT NULL,
+    State VARCHAR(255) NOT NULL,
+    ZipCode VARCHAR(10),
+    Country VARCHAR(255) NOT NULL,
+    CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ModificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+ALTER TABLE User
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE SET NULL;
+ALTER TABLE Menu
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+ALTER TABLE DiningTable
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+ALTER TABLE Reservation
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+ALTER TABLE MealOrder
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+ALTER TABLE Receipt
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+ALTER TABLE Report
+ADD COLUMN LocationID INT,
+ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
