@@ -1,14 +1,8 @@
-// In src/index.js
-const express = require("express");
+const app = require("./v1");
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
-// For testing purposes
-app.get("/", (req, res) => {
-  res.send("<h2>It's Working!</h2>");
-});
-
 app.listen(PORT, () => {
-  console.log(`API is listening on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
+  console.log("Default region in the cloud: " + process.env.DEFAULT_REGION_AWS);
 });
