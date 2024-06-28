@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const connection = require("../data-access/database");
+const connection = require("./data-access/database");
 const helmet = require("helmet");
 
 const app = express();
@@ -10,7 +10,7 @@ app.disable("x-powered-by");
 // reduce fingerprints
 
 //routes defines (to be seperated)
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./v1/routes/userRoutes");
 
 app.use(bodyParser.json());
 
