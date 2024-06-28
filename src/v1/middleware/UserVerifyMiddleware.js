@@ -11,7 +11,7 @@ class UserVerifyMiddleware {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      jwt.verify(token, process.env.EMPLOYEE_JWT_KEY, async (err, decodedToken) => {
+      jwt.verify(token, process.env.JWT_TOKEN, async (err, decodedToken) => {
         if (err) {
           return res.status(403).json({ message: "Forbidden" });
         }
@@ -33,6 +33,26 @@ class UserVerifyMiddleware {
   static VerifyOwner = UserVerifyMiddleware.verifyRole("Owner");
   static VerifyChief = UserVerifyMiddleware.verifyRole("Chief");
   static VerifyWaiter = UserVerifyMiddleware.verifyRole("Waiter");
+
+  static VerifyUser = (req, res, next) => {
+    const authHeader = req.header("Authorization");
+    const token = authHeader;
+    if (token == null) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    jwt.verify(token, process.env.JWT_TOKEN, async (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+      userID = jwt.decode(token, process.env.JWT_TOKEN).userID;
+      const user = await User.FindByID(userID);
+      if (user) {
+        next();
+      }
+      return res.status(404).json({ message: "User Not Found" });
+    });
+  };
 }
 
 module.exports = UserVerifyMiddleware;
