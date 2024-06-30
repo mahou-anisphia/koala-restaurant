@@ -1,9 +1,14 @@
 const express = require("express");
 const UserController = require("../controllers/userController");
+const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
 router.post("/login", UserController.Login);
-router.post("/change-password", UserController.ChangePassword);
+router.post(
+  "/change-password",
+  UserVerifyMiddleware.VerifyUser,
+  UserController.ChangePassword
+);
 
 router.all("/login", methodNotAllowedHandler);
 router.all("/change-password", methodNotAllowedHandler);

@@ -34,11 +34,20 @@ class UserController {
       res.json({ token });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async ChangePassword(req, res) {
-    return res.status(200).json({ message: "Change Password" });
+    try {
+      const newPassword = req.body.newPassword;
+      const userID = req.user.UserID;
+      const hashedNewPassoword = await bcrypt.hash(newPassword, 10);
+      await User.ChangePassword(userID, hashedNewPassoword);
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error("Error changing password:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   }
 }
 

@@ -13,18 +13,23 @@ class UserVerifyMiddleware {
 
       jwt.verify(token, process.env.JWT_TOKEN, async (err, decodedToken) => {
         if (err) {
-          return res.status(403).json({ message: "Forbidden" });
+          return res.status(401).json({ message: "Unauthorized" });
         }
-        const userID = decodedToken.userID;
-        const user = await User.FindByID(userID);
-        if (user) {
-          if (user.role === role) {
-            req.user = user;
-            return next();
+        try {
+          const userID = decodedToken.userID;
+          const user = await User.FindByID(userID);
+          if (user) {
+            if (user.role === role) {
+              req.user = user;
+              return next();
+            }
+            return res.status(403).json({ message: "Forbidden" });
+          } else {
+            return res.status(404).json({ message: "User does not exist" });
           }
+        } catch (error) {
           return res.status(403).json({ message: "Forbidden" });
         }
-        return res.status(404).json({ message: "User not found" });
       });
     };
   };
@@ -41,16 +46,22 @@ class UserVerifyMiddleware {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    jwt.verify(token, process.env.JWT_TOKEN, async (err, user) => {
+    jwt.verify(token, process.env.JWT_TOKEN, async (err, decodedToken) => {
       if (err) {
         return res.status(403).json({ message: "Forbidden" });
       }
-      userID = jwt.decode(token, process.env.JWT_TOKEN).userID;
-      const user = await User.FindByID(userID);
-      if (user) {
-        next();
+      try {
+        const userID = decodedToken.userID;
+        const user = await User.FindByID(userID);
+        if (user) {
+          req.user = user;
+          next();
+        } else {
+          return res.status(404).json({ message: "User does not exist" });
+        }
+      } catch (error) {
+        return res.status(403).json({ message: "Forbidden" });
       }
-      return res.status(404).json({ message: "User Not Found" });
     });
   };
 }
