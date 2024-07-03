@@ -40,12 +40,18 @@ router.patch(
   UserVerifyMiddleware.VerifyOwner,
   OwnerController.AssignUserRole
 );
+router.get(
+  "/search/:searchQueries",
+  UserVerifyMiddleware.VerifyOwner,
+  OwnerController.SearchUser
+);
 
 router.all("/create-user", methodNotAllowedHandler);
 router.all("/update-user", methodNotAllowedHandler);
 router.all("/delete-user", methodNotAllowedHandler);
 router.all("/view-user", methodNotAllowedHandler);
 router.all("/assign-role", methodNotAllowedHandler);
+router.all("/search", methodNotAllowedHandler);
 // router.all("/view-all", methodNotAllowedHandler);
 
 function methodNotAllowedHandler(req, res, next) {

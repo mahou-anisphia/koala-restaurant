@@ -135,6 +135,23 @@ class User {
       });
     });
   }
+  static async SearchUsers(searchTerm) {
+    return new Promise((resolve, reject) => {
+      const query = `
+            SELECT Name, Role, Login, Location
+            FROM UserFullInfo
+            WHERE Location LIKE ? OR Name LIKE ? OR Login LIKE ?
+        `;
+      const likeTerm = `%${searchTerm}%`;
+      const values = [likeTerm, likeTerm, likeTerm];
+      connection.query(query, values, (error, results) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(results);
+      });
+    });
+  }
 }
 
 module.exports = User;
