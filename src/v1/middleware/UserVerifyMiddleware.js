@@ -19,7 +19,7 @@ class UserVerifyMiddleware {
           const userID = decodedToken.userID;
           const user = await User.FindByID(userID);
           if (user) {
-            if (user.role === role) {
+            if (user.Role === role) {
               req.user = user;
               return next();
             }

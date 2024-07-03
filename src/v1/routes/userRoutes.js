@@ -9,6 +9,11 @@ router.patch(
   UserVerifyMiddleware.VerifyUser,
   UserController.ChangePassword
 );
+router.get(
+  "/view-profile",
+  UserVerifyMiddleware.VerifyUser,
+  UserController.ViewProfile
+);
 
 router.all("/login", methodNotAllowedHandler);
 router.all("/change-password", methodNotAllowedHandler);

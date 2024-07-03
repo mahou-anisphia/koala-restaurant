@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../service/userServices");
+const Location = require("../service/locationServices");
 
 class UserController {
   static generateToken(user) {
@@ -25,6 +26,7 @@ class UserController {
         password,
         user.Password
       );
+
       if (!validate) {
         return res
           .status(404)
@@ -48,6 +50,37 @@ class UserController {
       console.error("Error changing password:", error);
       return res.status(500).json({ message: "Internal server error" });
     }
+  }
+  static async ViewProfile(req, res) {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const {
+      UserID,
+      Name,
+      Role,
+      ContactDetails,
+      Login,
+      CreationDate,
+      ModificationDate,
+      LocationID,
+    } = req.user;
+    const location = await Location.FindByID(LocationID);
+    delete location.LocationID;
+    delete location.CreationDate;
+    delete location.ModificationDate;
+    const profile = {
+      Name,
+      Role,
+      ContactDetails,
+      Login,
+      CreationDate,
+      ModificationDate,
+      location,
+    };
+
+    res.status(200).json(profile);
   }
 }
 
