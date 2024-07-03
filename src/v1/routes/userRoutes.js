@@ -17,6 +17,7 @@ router.get(
 
 router.all("/login", methodNotAllowedHandler);
 router.all("/change-password", methodNotAllowedHandler);
+router.all("/view-profile", methodNotAllowedHandler);
 
 function methodNotAllowedHandler(req, res, next) {
   res.status(405).send("Method Not Allowed");

@@ -68,6 +68,11 @@ class OwnerController {
 
       try {
         const result = await User.UpdateUser(userID, user);
+        if (result.affectedRows === 0) {
+          return res
+            .status(500)
+            .json({ error: "An error occurred while saving your updates" });
+        }
         return res
           .status(200)
           .json({ message: "User updated successfully", result });
@@ -132,6 +137,24 @@ class OwnerController {
   static async ViewAllEmployee(req, res) {
     try {
       const userList = await User.SelectAllUser();
+      return res.status(200).json(userList);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while fetching the users" });
+    }
+  }
+
+  static async ViewEmployeeOnLocation(req, res) {
+    const locationId = req.params.id;
+    try {
+      const userList = await User.FindByLocationID(locationId);
+      if (!userList) {
+        return res
+          .status(404)
+          .json({ error: "There is no user in this location" });
+      }
       const sanitizedUserList = userList.map((user) => {
         const { Password, ...userWithoutPassword } = user;
         return userWithoutPassword;
@@ -144,12 +167,27 @@ class OwnerController {
         .json({ error: "An error occurred while fetching the users" });
     }
   }
-
-  static ViewEmployeeOnLocation(req, res) {
-    return res;
-  }
-  static AssignUserRole(req, res) {
-    return res;
+  static async AssignUserRole(req, res) {
+    const userId = req.params.id;
+    const role = req.body.role;
+    const validRoles = ["Chef", "Waiter", "Customer", "Owner"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ error: "Invalid role" });
+    }
+    try {
+      const result = await User.UpdateRole(userId, role);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      return res
+        .status(200)
+        .json({ message: "User's role updated successfully", result });
+    } catch (error) {
+      console.error("Error Assign Role to User:", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while assigning role to user" });
+    }
   }
 }
 

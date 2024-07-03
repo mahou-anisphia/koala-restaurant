@@ -141,3 +141,17 @@ ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
 ALTER TABLE Report
 ADD COLUMN LocationID INT,
 ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE CASCADE;
+CREATE VIEW UserFullInfo AS
+SELECT
+    u.UserID,
+    u.Name,
+    u.Role,
+    u.ContactDetails,
+    u.Login,
+    u.CreationDate,
+    u.ModificationDate,
+    CONCAT(l.Address, ', ', l.City, ', ', l.State, ' ', l.ZipCode, ', ', l.Country) AS Location
+FROM
+    User u
+LEFT JOIN
+    Location l ON u.LocationID = l.LocationID;

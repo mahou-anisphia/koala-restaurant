@@ -38,7 +38,7 @@ class User {
           if (error) {
             return reject(error);
           }
-          resolve(result[0]);
+          resolve(result);
         }
       );
     });
@@ -86,9 +86,21 @@ class User {
   }
   static async SelectAllUser() {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM User`;
+      const query = `SELECT * FROM UserFullInfo`;
 
       connection.query(query, (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+  static async UpdateRole(userId, role) {
+    return new Promise((resolve, reject) => {
+      const query = `UPDATE User SET Role = ? WHERE UserID = ?`;
+      const values = [userId, role];
+      connection.query(query, values, (error, result) => {
         if (error) {
           return reject(error);
         }
