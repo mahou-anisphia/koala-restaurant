@@ -4,7 +4,7 @@ const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
 router.post("/login", UserController.Login);
-router.post(
+router.patch(
   "/change-password",
   UserVerifyMiddleware.VerifyUser,
   UserController.ChangePassword

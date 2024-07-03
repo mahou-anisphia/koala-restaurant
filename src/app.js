@@ -11,6 +11,7 @@ app.disable("x-powered-by");
 
 //routes defines (to be seperated)
 const userRoutes = require("./v1/routes/userRoutes");
+const ownerRoutes = require("./v1/routes/ownerRoutes");
 
 app.use(bodyParser.json());
 
@@ -23,5 +24,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/user/owner", ownerRoutes);
 
 module.exports = app;

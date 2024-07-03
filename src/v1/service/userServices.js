@@ -84,6 +84,33 @@ class User {
       });
     });
   }
+  static async UpdateUser(userId, userDetails) {
+    return new Promise((resolve, reject) => {
+      const { Name, Role, ContactDetails, Login, Password, LocationID } =
+        userDetails;
+      const query = `
+        UPDATE User
+        SET Name = ?, Role = ?, ContactDetails = ?, Login = ?, Password = ?, LocationID = ?
+        WHERE UserID = ?
+      `;
+      const values = [
+        Name,
+        Role,
+        ContactDetails,
+        Login,
+        Password,
+        LocationID,
+        userId,
+      ];
+
+      connection.query(query, values, (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result);
+      });
+    });
+  }
 }
 
 module.exports = User;
