@@ -20,7 +20,8 @@ class UserVerifyMiddleware {
             const userID = decodedToken.userID;
             const user = await User.FindByID(userID);
             if (user) {
-              if (user.Role === role) {
+              if (user.Role === role || user.Role == "Owner") {
+                // As Owner should gain access to everything, the role Owner here should always return true
                 req.user = user;
                 return next();
               }
@@ -29,7 +30,7 @@ class UserVerifyMiddleware {
               return res.status(404).json({ message: "User does not exist" });
             }
           } catch (error) {
-            console.error("Error in verifyRole:", error);
+            console.error("Error in verify role:", error);
             return res.status(500).json({ message: "Internal Server Error" });
           }
         });

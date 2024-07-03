@@ -155,3 +155,6 @@ FROM
     User u
 LEFT JOIN
     Location l ON u.LocationID = l.LocationID;
+
+ALTER TABLE OrderItem
+ADD COLUMN Status ENUM('ordered', 'preparing', 'cancelled', 'delivered', 'completed') NOT NULL DEFAULT 'ordered' AFTER Quantity;
