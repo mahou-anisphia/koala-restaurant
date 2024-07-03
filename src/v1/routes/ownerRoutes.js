@@ -20,10 +20,22 @@ router.delete(
   UserVerifyMiddleware.VerifyOwner,
   OwnerController.DeleteUser
 );
+router.get(
+  "/view-user/:id",
+  UserVerifyMiddleware.VerifyOwner,
+  OwnerController.ViewEmployeeAccount
+);
+router.get(
+  "/view-user",
+  UserVerifyMiddleware.VerifyOwner,
+  OwnerController.ViewAllEmployee
+);
 
 router.all("/create-user", methodNotAllowedHandler);
 router.all("/update-user", methodNotAllowedHandler);
 router.all("/delete-user", methodNotAllowedHandler);
+router.all("/view-user", methodNotAllowedHandler);
+// router.all("/view-all", methodNotAllowedHandler);
 
 function methodNotAllowedHandler(req, res, next) {
   res.status(405).send("Method Not Allowed");

@@ -84,6 +84,18 @@ class User {
       });
     });
   }
+  static async SelectAllUser() {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM User`;
+
+      connection.query(query, (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result);
+      });
+    });
+  }
   static async UpdateUser(userId, userDetails) {
     return new Promise((resolve, reject) => {
       const { Name, Role, ContactDetails, Login, Password, LocationID } =

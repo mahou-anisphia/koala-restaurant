@@ -10,9 +10,11 @@ class UserController {
       expiresIn: "3d",
     });
   }
+
   static async comparePassword(password, hashedPassword) {
     return bcrypt.compare(password, hashedPassword);
   }
+
   static async Login(req, res) {
     const { username, password } = req.body;
     try {
@@ -22,35 +24,43 @@ class UserController {
           .status(404)
           .json({ message: "Invalid username or password" });
       }
+
       const validate = await UserController.comparePassword(
         password,
         user.Password
       );
-
       if (!validate) {
         return res
           .status(404)
           .json({ message: "Invalid username or password" });
       }
+
       const token = UserController.generateToken(user);
-      res.json({ token });
+      return res.json({ token });
     } catch (error) {
-      console.log(error);
+      console.error("Error logging in:", error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
   static async ChangePassword(req, res) {
     try {
       const newPassword = req.body.newPassword;
       const userID = req.user.UserID;
-      const hashedNewPassoword = await bcrypt.hash(newPassword, 10);
-      await User.ChangePassword(userID, hashedNewPassoword);
-      res.json({ message: "Password updated successfully" });
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      try {
+        await User.ChangePassword(userID, hashedNewPassword);
+        return res.json({ message: "Password updated successfully" });
+      } catch (error) {
+        console.error("Error changing password:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
     } catch (error) {
-      console.error("Error changing password:", error);
+      console.error("Error hashing password:", error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
   static async ViewProfile(req, res) {
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -66,21 +76,28 @@ class UserController {
       ModificationDate,
       LocationID,
     } = req.user;
-    const location = await Location.FindByID(LocationID);
-    delete location.LocationID;
-    delete location.CreationDate;
-    delete location.ModificationDate;
-    const profile = {
-      Name,
-      Role,
-      ContactDetails,
-      Login,
-      CreationDate,
-      ModificationDate,
-      location,
-    };
 
-    res.status(200).json(profile);
+    try {
+      const location = await Location.FindByID(LocationID);
+      delete location.LocationID;
+      delete location.CreationDate;
+      delete location.ModificationDate;
+
+      const profile = {
+        Name,
+        Role,
+        ContactDetails,
+        Login,
+        CreationDate,
+        ModificationDate,
+        location,
+      };
+
+      return res.status(200).json(profile);
+    } catch (error) {
+      console.error("Error fetching location:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   }
 }
 
