@@ -10,16 +10,16 @@ router.post(
   UserVerifyMiddleware.VerifyOwner,
   OwnerController.CreateUser
 );
-// router.patch(
-//   "/update-user/:id",
-//   UserVerifyMiddleware.VerifyOwner,
-//   OwnerController.UpdateUser
-// );
-// router.delete(
-//   "/delete-user/:id",
-//   UserVerifyMiddleware.VerifyOwner,
-//   OwnerController.DeleteUser
-// );
+router.patch(
+  "/update-user/:id",
+  UserVerifyMiddleware.VerifyOwner,
+  OwnerController.UpdateUser
+);
+router.delete(
+  "/delete-user/:id",
+  UserVerifyMiddleware.VerifyOwner,
+  OwnerController.DeleteUser
+);
 
 router.all("/create-user", methodNotAllowedHandler);
 router.all("/update-user", methodNotAllowedHandler);
