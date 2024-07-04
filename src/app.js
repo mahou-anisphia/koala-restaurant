@@ -2,9 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const connection = require("./data-access/database");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const app = express();
 app.use(helmet());
+app.use(cors());
 // avoid being attacked by common HTTP
 app.disable("x-powered-by");
 // reduce fingerprints

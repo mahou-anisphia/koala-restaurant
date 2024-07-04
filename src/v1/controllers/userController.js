@@ -36,7 +36,7 @@ class UserController {
       }
 
       const token = UserController.generateToken(user);
-      return res.json({ token });
+      return res.status(200).json({ token });
     } catch (error) {
       console.error("Error logging in:", error);
       return res.status(500).json({ message: "Internal server error" });
