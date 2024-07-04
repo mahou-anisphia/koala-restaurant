@@ -3,10 +3,10 @@ const LocationController = require("../controllers/locationController");
 const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
-router.post("/location/", LocationController.ViewAllLocation);
-router.post(
+router.get("/location/", LocationController.ViewAllLocation);
+router.get(
   "/location/search/:searchQueries",
-  LocationController.ViewAllLocation
+  LocationController.SearchLocation
 );
 
 router.get("/location/:id", LocationController.ViewLocation);

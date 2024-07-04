@@ -9,7 +9,7 @@ class DishController {
   // Function to add a new dish to the database
 
   static async addDish(req, res) {
-    const userID = req.user.userID;
+    const userID = req.user.UserID;
     try {
       // Handle file upload
       upload.single("image")(req, res, async (err) => {
@@ -66,7 +66,7 @@ class DishController {
   // Function to update an existing dish in the database
   static async updateDish(req, res) {
     try {
-      const userID = req.user.userID;
+      const userID = req.user.UserID;
       const dishId = req.params.id;
       const dish = await Dish.getDishByID(dishId);
 
