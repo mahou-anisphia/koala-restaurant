@@ -4,8 +4,13 @@ const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
 router.post("/location/", LocationController.ViewAllLocation);
-router.post("/location/", LocationController.CreateLocation);
+
 router.get("/location/:id", LocationController.ViewLocation);
+router.post(
+  "/location/",
+  UserVerifyMiddleware.VerifyOwner,
+  LocationController.CreateLocation
+);
 router.patch(
   "/location/:id",
   UserVerifyMiddleware.VerifyOwner,

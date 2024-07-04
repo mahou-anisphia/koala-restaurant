@@ -203,6 +203,18 @@ class DishController {
       return res.status(500).json({ message: "Failed to fetch dishes" });
     }
   }
+  static async SearchDishes(req, res) {
+    const term = req.params.searchQueries;
+    try {
+      const result = await Dish.SearchDishes(term);
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error("Error Search Occured", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while searching for user." });
+    }
+  }
 }
 
 module.exports = DishController;

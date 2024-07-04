@@ -128,6 +128,28 @@ class Dish {
       });
     });
   }
+  static async SearchDishes(searchTerm) {
+    return new Promise((resolve, reject) => {
+      const query = `
+            SELECT Name, Description, Price, PreparationTime, ImageLink
+            FROM Dish
+            WHERE Name LIKE ? OR Description LIKE ?
+        `;
+      const likeTerm = `%${searchTerm}%`;
+      const values = [likeTerm, likeTerm];
+
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+        connection.query(query, values, (error, results) => {
+          connection.release();
+          if (error) {
+            return reject(error);
+          }
+          resolve(results);
+        });
+      });
+    });
+  }
 }
 
 module.exports = Dish;

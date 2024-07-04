@@ -14,6 +14,11 @@ router.get(
   UserVerifyMiddleware.VerifyUser,
   UserController.ViewProfile
 );
+router.patch(
+  "/user/update",
+  UserVerifyMiddleware.VerifyUser,
+  UserController.UpdateUser
+);
 
 router.all("/user", methodNotAllowedHandler);
 // router.all("/login", methodNotAllowedHandler);
