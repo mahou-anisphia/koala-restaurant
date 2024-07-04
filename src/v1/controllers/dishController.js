@@ -71,17 +71,69 @@ class DishController {
 
   // Function to delete a dish from the database
   static async deleteDish(req, res) {
-    // Implement logic to delete a dish
+    try {
+      const dishId = req.params.id;
+      if (!dishId) {
+        return res.status(400).json({ message: "Dish ID is required" });
+      }
+
+      const dish = await Dish.getDishByID(dishId);
+      if (!dish) {
+        return res.status(404).json({ message: "Dish not found" });
+      }
+
+      const s3URL = dish.ImageLink;
+      const match = s3URL.match(/https:\/\/.*\.s3\.amazonaws\.com\/(.*)/);
+      if (!match || !match[1]) {
+        return res.status(400).json({ message: "Invalid S3 URL" });
+      }
+
+      const key = match[1];
+      await S3UploadUtils.deleteObjectFromS3(key);
+
+      const validate = await Dish.deleteDish(dishId);
+      if (validate) {
+        return res.status(200).json({ message: "Dish deleted successfully" });
+      } else {
+        return res.status(500).json({ message: "Failed to delete dish" });
+      }
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "An error occurred while deleting the dish" });
+    }
   }
 
   // Function to get details of a specific dish from the database
   static async getDishByID(req, res) {
-    // Implement logic to get details of a specific dish
+    try {
+      const dishId = req.params.id;
+      if (!dishId) {
+        return res.status(400).json({ message: "Dish ID is required" });
+      }
+
+      const dish = await Dish.getDishByID(dishId);
+      if (!dish) {
+        return res.status(404).json({ message: "Dish not found" });
+      }
+
+      return res.status(200).json(dish);
+    } catch (error) {
+      console.error("Error in getDishByID:", error);
+      return res.status(500).json({ message: "Failed to get dish details" });
+    }
   }
 
   // Function to get all dishes from the database
   static async getAllDishes(req, res) {
-    // Implement logic to get all dishes
+    try {
+      const dishes = await Dish.getAllDishes();
+      return res.status(200).json(dishes);
+    } catch (error) {
+      console.error("Error in getAllDishes:", error);
+      return res.status(500).json({ message: "Failed to fetch dishes" });
+    }
   }
 }
 
