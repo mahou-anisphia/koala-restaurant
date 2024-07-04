@@ -2,7 +2,6 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const Dish = require("../service/dishServices");
 const S3UploadUtils = require("../../utils/s3BucketUtils");
-const { S3 } = require("aws-sdk");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -67,6 +66,7 @@ class DishController {
   // Function to update an existing dish in the database
   static async updateDish(req, res) {
     try {
+      const userID = req.user.userID;
       const dishId = req.params.id;
       const dish = await Dish.getDishByID(dishId);
 
@@ -85,6 +85,7 @@ class DishController {
           dish.Name = req.body.Name || dish.Name;
           dish.Description = req.body.Description || dish.Description;
           dish.Price = req.body.Price || dish.Price;
+          dish.ModifiedBy = userID;
           dish.PreparationTime =
             req.body.PreparationTime || dish.PreparationTime;
 
