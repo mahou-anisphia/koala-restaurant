@@ -4,6 +4,10 @@ const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
 router.post("/location/", LocationController.ViewAllLocation);
+router.post(
+  "/location/search/:searchQueries",
+  LocationController.ViewAllLocation
+);
 
 router.get("/location/:id", LocationController.ViewLocation);
 router.post(

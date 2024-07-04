@@ -24,7 +24,7 @@ router.delete(
 // Route to get details of a specific dish
 router.get("/dishes/:id", DishController.getDishByID);
 // search function
-router.get("/dishes/:searchQueries", DishController.SearchDishes);
+router.get("/dishes/search/:searchQueries", DishController.SearchDishes);
 // Route to get all dishes
 router.get("/dishes", DishController.getAllDishes);
 
