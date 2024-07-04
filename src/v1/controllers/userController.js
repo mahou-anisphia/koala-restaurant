@@ -79,11 +79,8 @@ class UserController {
 
     try {
       const location = await Location.FindByID(LocationID);
-      delete location.LocationID;
-      delete location.CreationDate;
-      delete location.ModificationDate;
-
       const profile = {
+        UserID,
         Name,
         Role,
         ContactDetails,

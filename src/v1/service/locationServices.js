@@ -115,7 +115,7 @@ class Location {
   static async SearchLocations(searchTerm) {
     return new Promise((resolve, reject) => {
       const query = `
-            SELECT Address, City, State, ZipCode, Country
+            SELECT *
             FROM Location
             WHERE Address LIKE ? OR City LIKE ? OR State LIKE ? OR ZipCode LIKE ? OR Country LIKE ?
         `;

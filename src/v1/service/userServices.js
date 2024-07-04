@@ -184,7 +184,7 @@ class User {
   static async SearchUsers(searchTerm) {
     return new Promise((resolve, reject) => {
       const query = `
-            SELECT Name, Role, Login, Location
+            SELECT *
             FROM UserFullInfo
             WHERE Location LIKE ? OR Name LIKE ? OR Login LIKE ?
         `;

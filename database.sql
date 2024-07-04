@@ -149,6 +149,7 @@ SELECT
     u.ContactDetails,
     u.Login,
     u.CreationDate,
+    u.LocationID,
     u.ModificationDate,
     CONCAT(l.Address, ', ', l.City, ', ', l.State, ' ', l.ZipCode, ', ', l.Country) AS Location
 FROM

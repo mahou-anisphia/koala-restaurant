@@ -131,7 +131,7 @@ class Dish {
   static async SearchDishes(searchTerm) {
     return new Promise((resolve, reject) => {
       const query = `
-            SELECT Name, Description, Price, PreparationTime, ImageLink
+            SELECT *
             FROM Dish
             WHERE Name LIKE ? OR Description LIKE ?
         `;
