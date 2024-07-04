@@ -1,18 +1,22 @@
-const connection = require("../../data-access/database");
+const pool = require("../../data-access/database");
 
 class Location {
   static async FindByID(ID) {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM Location WHERE LocationID = ?`,
-        [ID],
-        (error, result) => {
-          if (error) {
-            return reject(error);
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+        connection.query(
+          `SELECT * FROM Location WHERE LocationID = ?`,
+          [ID],
+          (error, result) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(result[0]);
           }
-          resolve(result[0]);
-        }
-      );
+        );
+      });
     });
   }
 }

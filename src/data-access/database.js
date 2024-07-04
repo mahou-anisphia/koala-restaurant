@@ -1,19 +1,24 @@
 require("dotenv").config();
 const mysql = require("mysql");
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 10, // Adjust based on your concurrency needs
   host: process.env.DB_ENDPOINT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to database: " + err.stack);
-    return;
-  }
-  console.log("Connected to database as ID " + connection.threadId);
+pool.on("connection", (connection) => {
+  console.log("New connection established with ID " + connection.threadId);
 });
 
-module.exports = connection;
+pool.on("acquire", (connection) => {
+  console.log("Connection %d acquired", connection.threadId);
+});
+
+pool.on("release", (connection) => {
+  console.log("Connection %d released", connection.threadId);
+});
+
+module.exports = pool;
