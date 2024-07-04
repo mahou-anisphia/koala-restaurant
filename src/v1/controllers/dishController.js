@@ -2,6 +2,7 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const Dish = require("../service/dishServices");
 const S3UploadUtils = require("../../utils/s3BucketUtils");
+const { S3 } = require("aws-sdk");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -10,7 +11,6 @@ class DishController {
 
   static async addDish(req, res) {
     const userID = req.user.userID;
-
     try {
       // Handle file upload
       upload.single("image")(req, res, async (err) => {
@@ -39,7 +39,7 @@ class DishController {
           req.file,
           imageKey
         );
-        console.log(imageLink);
+        // console.log(imageLink);
         // Prepare data to save in database
         const productData = {
           Name: req.body.Name,
@@ -66,7 +66,74 @@ class DishController {
 
   // Function to update an existing dish in the database
   static async updateDish(req, res) {
-    // Implement logic to update an existing dish
+    try {
+      const dishId = req.params.id;
+      const dish = await Dish.getDishByID(dishId);
+
+      if (!dish) {
+        return res.status(404).json({ message: "Dish not found" });
+      }
+
+      upload.single("image")(req, res, async (err) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "Image upload failed", error: err.message });
+        }
+
+        try {
+          dish.Name = req.body.Name || dish.Name;
+          dish.Description = req.body.Description || dish.Description;
+          dish.Price = req.body.Price || dish.Price;
+          dish.PreparationTime =
+            req.body.PreparationTime || dish.PreparationTime;
+
+          if (!req.file) {
+            const validate = await Dish.updateDish(dishId);
+            if (validate) {
+              return res.status(200).json({
+                message: "Dish updated successfully",
+                result: validate,
+              });
+            } else {
+              return res.status(500).json({ message: "Dish update failed" });
+            }
+          } else {
+            const imageKey = `${uuidv4()}-${req.file.originalname}`;
+            const imageLink = await S3UploadUtils.uploadImageToS3(
+              req.file,
+              imageKey
+            );
+
+            const s3URL = dish.ImageLink;
+            const match = s3URL.match(/https:\/\/.*\.s3\.amazonaws\.com\/(.*)/);
+            if (!match || !match[1]) {
+              return res.status(400).json({ message: "Invalid S3 URL" });
+            }
+
+            dish.ImageLink = imageLink;
+            const validate = await Dish.updateDish(dishId);
+            if (validate) {
+              await S3UploadUtils.deleteObjectFromS3(match[1]);
+              return res.status(200).json({
+                message: "Dish updated successfully",
+                result: validate,
+              });
+            } else {
+              return res.status(500).json({ message: "Dish update failed" });
+            }
+          }
+        } catch (updateErr) {
+          return res
+            .status(500)
+            .json({ message: "Dish update failed", error: updateErr.message });
+        }
+      });
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ message: "Internal Server Error", error: err.message });
+    }
   }
 
   // Function to delete a dish from the database

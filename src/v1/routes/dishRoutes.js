@@ -10,7 +10,7 @@ router.post(
   DishController.addDish
 );
 // Route to update an existing dish
-router.put(
+router.patch(
   "/dishes/:id",
   UserVerifyMiddleware.VerifyWaiter,
   DishController.updateDish
