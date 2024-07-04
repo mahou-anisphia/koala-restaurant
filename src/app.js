@@ -12,8 +12,10 @@ app.disable("x-powered-by");
 // reduce fingerprints
 
 //routes defines (to be seperated)
+const devRoutes = require("./v1/routes/devRoutes");
 const userRoutes = require("./v1/routes/userRoutes");
 const ownerRoutes = require("./v1/routes/ownerRoutes");
+const dishRoutes = require("./v1/routes/dishRoutes");
 
 app.use(bodyParser.json());
 
@@ -25,7 +27,9 @@ app.use((req, res, next) => {
   }
 });
 
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/user/owner", ownerRoutes);
+app.use("/api/v1/", devRoutes);
+app.use("/api/v1/", userRoutes);
+app.use("/api/v1/", ownerRoutes);
+app.use("/api/v1/", dishRoutes);
 
 module.exports = app;

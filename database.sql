@@ -158,3 +158,13 @@ LEFT JOIN
 
 ALTER TABLE OrderItem
 ADD COLUMN Status ENUM('ordered', 'preparing', 'cancelled', 'delivered', 'completed') NOT NULL DEFAULT 'ordered' AFTER Quantity;
+
+-- Step 1: Add the new columns to the Dish table
+ALTER TABLE Dish
+ADD COLUMN CreatedBy INT,
+ADD COLUMN ModifiedBy INT;
+
+-- Step 2: Add foreign key constraints
+ALTER TABLE Dish
+ADD CONSTRAINT FK_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES User(UserID),
+ADD CONSTRAINT FK_ModifiedBy FOREIGN KEY (ModifiedBy) REFERENCES User(UserID);

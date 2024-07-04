@@ -3,21 +3,22 @@ const UserController = require("../controllers/userController");
 const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
-router.post("/login", UserController.Login);
+router.post("/user/login", UserController.Login);
 router.patch(
-  "/change-password",
+  "/user/change-password",
   UserVerifyMiddleware.VerifyUser,
   UserController.ChangePassword
 );
 router.get(
-  "/view-profile",
+  "/user/view-profile",
   UserVerifyMiddleware.VerifyUser,
   UserController.ViewProfile
 );
 
-router.all("/login", methodNotAllowedHandler);
-router.all("/change-password", methodNotAllowedHandler);
-router.all("/view-profile", methodNotAllowedHandler);
+router.all("/user", methodNotAllowedHandler);
+// router.all("/login", methodNotAllowedHandler);
+// router.all("/change-password", methodNotAllowedHandler);
+// router.all("/view-profile", methodNotAllowedHandler);
 
 function methodNotAllowedHandler(req, res, next) {
   res.status(405).send("Method Not Allowed");
