@@ -16,6 +16,7 @@ const devRoutes = require("./v1/routes/devRoutes");
 const userRoutes = require("./v1/routes/userRoutes");
 const ownerRoutes = require("./v1/routes/ownerRoutes");
 const dishRoutes = require("./v1/routes/dishRoutes");
+const locationRoutes = require("./v1/routes/locationRoutes");
 
 app.use(bodyParser.json());
 
@@ -31,5 +32,6 @@ app.use("/api/v1/", devRoutes);
 app.use("/api/v1/", userRoutes);
 app.use("/api/v1/", ownerRoutes);
 app.use("/api/v1/", dishRoutes);
+app.use("/api/v1/", locationRoutes);
 
 module.exports = app;
