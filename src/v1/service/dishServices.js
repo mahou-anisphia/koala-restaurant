@@ -136,7 +136,7 @@ class Dish {
       const query = `
             SELECT *
             FROM DishWithCategory
-            WHERE Name LIKE ? OR Description LIKE ?
+            WHERE DishName LIKE ? OR Description LIKE ?
         `;
       const likeTerm = `%${searchTerm}%`;
       const values = [likeTerm, likeTerm];
