@@ -1,6 +1,7 @@
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const Dish = require("../service/dishServices");
+const Category = require("../service/categoryServices");
 const S3UploadUtils = require("../../utils/s3BucketUtils");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -18,7 +19,8 @@ class DishController {
           !req.body.Name ||
           !req.body.Description ||
           !req.body.Price ||
-          !req.body.PreparationTime
+          !req.body.PreparationTime ||
+          !req.body.CategoryID
         ) {
           console.log(req);
           return res.status(400).json({ message: "Dish Missing Field!" });
@@ -29,6 +31,12 @@ class DishController {
 
         if (!req.file) {
           return res.status(400).json({ message: "No file uploaded" });
+        }
+        const validateCategory = await Category.getCategoryByID(
+          req.body.CategoryID
+        );
+        if (!validateCategory) {
+          return res.status(400).json({ message: "Category Does Not Exist" });
         }
 
         const imageKey = `${uuidv4()}-${req.file.originalname}`;
@@ -46,6 +54,7 @@ class DishController {
           Price: req.body.Price,
           PreparationTime: req.body.PreparationTime,
           ImageLink: imageLink,
+          CategoryID: req.body.CategoryID,
           CreatedBy: userID,
           ModifiedBy: userID,
         };
@@ -88,7 +97,17 @@ class DishController {
           dish.ModifiedBy = userID;
           dish.PreparationTime =
             req.body.PreparationTime || dish.PreparationTime;
-
+          if (req.body.CategoryID) {
+            const validateCategory = await Category.getCategoryByID(
+              req.body.CategoryID
+            );
+            if (!validateCategory) {
+              return res
+                .status(400)
+                .json({ message: "Category Does Not Exist" });
+            }
+            dish.CategoryID = req.body.CategoryID;
+          }
           if (!req.file) {
             const validate = await Dish.updateDish(dishId);
             if (validate) {

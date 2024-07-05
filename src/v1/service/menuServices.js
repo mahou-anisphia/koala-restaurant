@@ -30,7 +30,7 @@ class Menu {
     });
   }
 
-  static async UpdateMenu(menuData, updaterID) {
+  static async UpdateMenuDetails(menuData, updaterID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
