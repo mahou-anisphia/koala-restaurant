@@ -212,7 +212,7 @@ class DishController {
       console.error("Error Search Occured", error);
       return res
         .status(500)
-        .json({ error: "An error occurred while searching for user." });
+        .json({ error: "An error occurred while searching for dish." });
     }
   }
 }
