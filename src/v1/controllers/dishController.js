@@ -215,6 +215,28 @@ class DishController {
         .json({ error: "An error occurred while searching for dish." });
     }
   }
+  static async getDishesByCategoryID(req, res) {
+    try {
+      const categoryID = req.params.id;
+      if (!categoryID) {
+        return res.status(400).json({ message: "Category ID is required" });
+      }
+
+      const dishes = await Dish.getDishesByCategoryID(categoryID);
+      if (!dishes || dishes.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "No dishes found for the given category ID" });
+      }
+
+      return res.status(200).json(dishes);
+    } catch (error) {
+      console.error("Error in getDishesByCategoryID:", error);
+      return res
+        .status(500)
+        .json({ message: "Failed to get dishes by category ID" });
+    }
+  }
 }
 
 module.exports = DishController;
