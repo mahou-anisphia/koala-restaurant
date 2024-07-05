@@ -181,3 +181,81 @@ CREATE TABLE Enquiries (
     Description TEXT,
     FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
+
+ALTER TABLE Menu
+ADD COLUMN CreatedBy INT,
+ADD COLUMN ModifiedBy INT;
+
+ALTER TABLE Menu
+ADD CONSTRAINT MenuFK_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES User(UserID),
+ADD CONSTRAINT MenuFK_ModifiedBy FOREIGN KEY (ModifiedBy) REFERENCES User(UserID);
+
+CREATE TABLE Category (
+    CategoryID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Description TEXT
+);
+
+ALTER TABLE Dish
+ADD COLUMN CategoryID INT;
+
+ALTER TABLE Dish
+ADD CONSTRAINT FK_Dish_Category FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID);
+
+-- Altering the Category table
+ALTER TABLE Category
+ADD COLUMN CreatedBy INT,
+ADD COLUMN ModifiedBy INT,
+ADD COLUMN CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN ModificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ADD CONSTRAINT Cat_fk_created_by FOREIGN KEY (CreatedBy) REFERENCES User(UserID),
+ADD CONSTRAINT Cat_fk_modified_by FOREIGN KEY (ModifiedBy) REFERENCES User(UserID);
+
+-- Drop the view if it exists
+DROP VIEW IF EXISTS DishWithCategory;
+
+-- Create the view again
+CREATE VIEW DishWithCategory AS
+SELECT
+    d.DishID,
+    d.Name AS DishName,
+    d.Description,
+    d.Price,
+    d.PreparationTime,
+    d.ImageLink,
+    d.CreationDate,
+    d.ModificationDate,
+    d.CreatedBy,
+    d.ModifiedBy,
+    d.CategoryID,
+    c.Name AS CategoryName
+FROM
+    Dish d
+JOIN
+    Category c ON d.CategoryID = c.CategoryID;
+
+
+-- Drop the view if it exists
+DROP VIEW IF EXISTS MenuDishDetails;
+
+-- Create the view again with modifications
+CREATE VIEW MenuDishDetails AS
+SELECT
+    m.MenuID,
+    d.DishID,
+    d.Name AS DishName,
+    d.Description AS DishDescription,
+    d.Price,
+    d.PreparationTime,
+    d.ImageLink,
+    md.Status,
+    c.CategoryID,
+    c.Name AS CategoryName
+FROM
+    Menu m
+JOIN
+    MenuDish md ON m.MenuID = md.MenuID
+JOIN
+    Dish d ON md.DishID = d.DishID
+JOIN
+    Category c ON d.CategoryID = c.CategoryID;

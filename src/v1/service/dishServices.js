@@ -14,6 +14,7 @@ class Dish {
           ImageLink,
           CreatedBy,
           ModifiedBy,
+          CategoryID, // Add CategoryID
         } = dishData;
         const values = {
           Name,
@@ -23,6 +24,7 @@ class Dish {
           ImageLink,
           CreatedBy,
           ModifiedBy,
+          CategoryID, // Add CategoryID
         };
 
         connection.query(`INSERT INTO Dish SET ?`, values, (error, result) => {
@@ -35,7 +37,6 @@ class Dish {
       });
     });
   }
-
   // Method to update an existing dish by ID
   static async updateDish(dishID, dishData) {
     return new Promise((resolve, reject) => {
@@ -48,6 +49,7 @@ class Dish {
           PreparationTime,
           ImageLink,
           ModifiedBy,
+          CategoryID, // Add CategoryID
         } = dishData;
         const values = {
           Name,
@@ -56,6 +58,7 @@ class Dish {
           PreparationTime,
           ImageLink,
           ModifiedBy,
+          CategoryID, // Add CategoryID
         };
 
         connection.query(
@@ -99,7 +102,7 @@ class Dish {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         connection.query(
-          `SELECT * FROM Dish WHERE DishID = ?`,
+          `SELECT * FROM DishWithCategory WHERE DishID = ?`,
           dishID,
           (error, result) => {
             connection.release();
@@ -118,7 +121,7 @@ class Dish {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
-        connection.query(`SELECT * FROM Dish`, (error, results) => {
+        connection.query(`SELECT * FROM DishWithCategory`, (error, results) => {
           connection.release();
           if (error) {
             return reject(error);
@@ -132,7 +135,7 @@ class Dish {
     return new Promise((resolve, reject) => {
       const query = `
             SELECT *
-            FROM Dish
+            FROM DishWithCategory
             WHERE Name LIKE ? OR Description LIKE ?
         `;
       const likeTerm = `%${searchTerm}%`;
@@ -147,6 +150,26 @@ class Dish {
           }
           resolve(results);
         });
+      });
+    });
+  }
+
+  static async getDishesByCategoryID(categoryID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        connection.query(
+          `SELECT * FROM DishWithCategory WHERE CategoryID = ?`,
+          [categoryID],
+          (error, results) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(results); // Return the list of dishes with the given category ID
+          }
+        );
       });
     });
   }
