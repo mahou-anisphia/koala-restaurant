@@ -13,8 +13,9 @@ router.put(
   UserVerifyMiddleware.VerifyOwner,
   CategoryController.ModifyCategory
 );
-router.get("/category", CategoryController.ViewCategory);
+
 router.get("/category/:id", CategoryController.ViewByID);
+router.get("/category", CategoryController.ViewCategory);
 router.delete(
   "/category/:id",
   UserVerifyMiddleware.VerifyOwner,
