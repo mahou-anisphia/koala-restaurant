@@ -28,6 +28,6 @@ router.delete(
 );
 
 // Route to get dining tables by location ID
-router.get("/location/:id", DiningTableController.GetByLocationID);
+router.get("/table/location/:id", DiningTableController.GetByLocationID);
 
 module.exports = router;
