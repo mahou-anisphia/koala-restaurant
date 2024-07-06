@@ -46,7 +46,7 @@ router.get(
   OwnerController.SearchUser
 );
 
-router.all("/owner/create-user", methodNotAllowedHandler);
+router.all("/owner", methodNotAllowedHandler);
 // router.all("/update-user", methodNotAllowedHandler);
 // router.all("/delete-user", methodNotAllowedHandler);
 // router.all("/view-user", methodNotAllowedHandler);

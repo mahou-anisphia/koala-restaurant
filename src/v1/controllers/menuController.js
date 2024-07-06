@@ -216,8 +216,50 @@ class MenuController {
     }
   }
 
-  static async DeleteDishFromMenu(req, res) {}
-  static async DeleteMenu(req, res) {}
+  static async DeleteDishFromMenu(req, res) {
+    const { id: menuID } = req.params;
+    const { DishID: dishID } = req.body;
+
+    try {
+      if (!menuID || !dishID) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const validate = await Menu.DeleteDishFromMenu(menuID, dishID);
+      if (!validate) {
+        return res
+          .status(500)
+          .json({ message: "Error while deleting dish from menu" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Dish removed from menu successfully" });
+    } catch (error) {
+      console.error("Error in DeleteDishFromMenu:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  static async DeleteMenu(req, res) {
+    const { id: menuID } = req.params;
+
+    try {
+      if (!menuID) {
+        return res.status(400).json({ message: "MenuID is required" });
+      }
+
+      await Menu.ClearDishes(menuID);
+      const validate = await Menu.DeleteMenu(menuID);
+      if (!validate) {
+        return res.status(500).json({ message: "Error while deleting menu" });
+      }
+
+      return res.status(200).json({ message: "Menu deleted successfully" });
+    } catch (error) {
+      console.error("Error in DeleteMenu:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }
 
 module.exports = MenuController;
