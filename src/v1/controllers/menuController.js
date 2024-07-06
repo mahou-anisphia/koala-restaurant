@@ -3,6 +3,7 @@ const Menu = require("../service/dishServices");
 const Location = require("../service/locationServices");
 
 class MenuController {
+  // may not be used; as it may cause too much confusion for FE devs
   static async GetMenuByID(req, res) {
     try {
       const menuID = req.params.id;
@@ -23,7 +24,7 @@ class MenuController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
-
+  // may not be used; as it may cause too much confusion for FE devs
   static async GetMenuByLocation(req, res) {
     try {
       const locationId = req.params.id;
@@ -122,9 +123,99 @@ class MenuController {
     }
   }
 
-  static async UpdateMenuDetails(req, res) {}
-  static async AddDishToMenu(req, res) {}
-  static async ModifyDishStatus(req, res) {}
+  static async UpdateMenuDetails(req, res) {
+    const { UserID: userID } = req.user;
+    const { id: menuID } = req.params;
+    const { Name, Description } = req.body;
+
+    try {
+      const menu = await Menu.GetAbstractMenu(menuID);
+
+      if (!menu) {
+        return res.status(404).json({ message: "Menu not found" });
+      }
+
+      menu.Name = Name || menu.Name;
+      menu.Description = Description || menu.Description;
+
+      const updateResult = await Menu.UpdateMenuDetail(menu, userID);
+
+      if (updateResult) {
+        return res.status(200).json({
+          message: "Menu updated successfully",
+          result: updateResult,
+        });
+      } else {
+        return res.status(500).json({ message: "Menu update failed" });
+      }
+    } catch (error) {
+      console.error("Error in UpdateMenuDetails:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async AddDishToMenu(req, res) {
+    const { id: menuID } = req.params;
+    const { DishID: dishID } = req.body;
+
+    try {
+      if (!menuID) {
+        return res.status(400).json({ message: "MenuID is required" });
+      }
+
+      const dish = await Dish.getDishByID(dishID);
+      if (!dish) {
+        return res
+          .status(400)
+          .json({ message: "Dish to be added does not exist" });
+      }
+
+      const validate = await Menu.AddDishToMenu(menuID, dishID);
+      if (!validate) {
+        return res.status(500).json({ message: "Failed adding dish to menu" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Added dish to menu successfully" });
+    } catch (error) {
+      console.error("Error in AddDishToMenu:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  static async ModifyDishStatus(req, res) {
+    const { dishID, menuID, status } = req.body;
+
+    try {
+      if (!dishID || !menuID || !status) {
+        return res.status(400).json({ message: "Missing input field!" });
+      }
+
+      const validStatuses = ["Available", "Unavailable"];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: "Invalid Status Entered" });
+      }
+
+      const validate = await Menu.ModifyDishStatusOnMenu(
+        menuID,
+        dishID,
+        status
+      );
+      if (!validate) {
+        return res
+          .status(500)
+          .json({ message: "Failed to update dish status" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Dish status updated successfully" });
+    } catch (error) {
+      console.error("Error in ModifyDishStatus:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   static async DeleteDishFromMenu(req, res) {}
   static async DeleteMenu(req, res) {}
 }

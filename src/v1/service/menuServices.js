@@ -39,7 +39,6 @@ class Menu {
         const values = {
           Name,
           Description,
-          ModificationDate: new Date(),
           ModifiedBy: updaterID,
         };
 
@@ -168,6 +167,26 @@ class Menu {
     });
   }
 
+  static async ClearDishes(menuID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        connection.query(
+          `DELETE FROM MenuDish WHERE MenuID = ?`,
+          [menuID],
+          (error, result) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(result);
+          }
+        );
+      });
+    });
+  }
+
   static async DeleteDishFromMenu(menuID, dishID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
@@ -187,6 +206,8 @@ class Menu {
       });
     });
   }
+
+  //method mainly used for update menu methods
   static async GetAbstractMenu(id) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
@@ -210,7 +231,7 @@ class Menu {
       });
     });
   }
-
+  //method mainly used for update menu methods
   static async GetAbstractMenusByLocation(id) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
