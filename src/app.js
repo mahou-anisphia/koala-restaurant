@@ -19,6 +19,7 @@ const dishRoutes = require("./v1/routes/dishRoutes");
 const locationRoutes = require("./v1/routes/locationRoutes");
 const menuRoutes = require("./v1/routes/menuRoutes");
 const categoryRoutes = require("./v1/routes/categoryRoutes");
+const diningTableRoutes = require("./v1/routes/diningTableRoutes");
 
 app.use(bodyParser.json());
 
@@ -37,5 +38,6 @@ app.use("/api/v1/", dishRoutes);
 app.use("/api/v1/", locationRoutes);
 app.use("/api/v1/", menuRoutes);
 app.use("/api/v1/", categoryRoutes);
+app.use("/api/v1/", diningTableRoutes);
 
 module.exports = app;

@@ -84,6 +84,10 @@ class LocationController {
     }
   }
 
+  // if the DB is setup SETNULL on User or On delete cascade, there's no need to update
+  // if not, there's a need too.
+  // the reason for this is because deleting location from a restaurant is an important decision, so there's
+  // no need to delete resources one by one like other linked tables
   static async DeleteLocation(req, res) {
     try {
       const locationId = req.params.id;

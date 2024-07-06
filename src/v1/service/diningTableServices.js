@@ -1,13 +1,13 @@
 const pool = require("../../data-access/database");
 
 class DiningTable {
-  static async createDiningTable(capacity, location, locationID) {
+  static async createDiningTable(capacity, location, locationID, userID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         connection.query(
-          `INSERT INTO DiningTable (Capacity, Location, LocationID) VALUES (?, ?, ?)`,
-          [capacity, location, locationID],
+          `INSERT INTO DiningTable (Capacity, Location, LocationID, CreatedBy) VALUES (?, ?, ?, ?)`,
+          [capacity, location, locationID, userID],
           (error, result) => {
             connection.release();
             if (error) {
@@ -37,13 +37,19 @@ class DiningTable {
       });
     });
   }
-  static async updateDiningTable(tableID, capacity, location, locationID) {
+  static async updateDiningTable(
+    tableID,
+    capacity,
+    location,
+    locationID,
+    userID
+  ) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         connection.query(
-          `UPDATE DiningTable SET Capacity = ?, Location = ?, LocationID = ? WHERE TableID = ?`,
-          [capacity, location, locationID, tableID],
+          `UPDATE DiningTable SET Capacity = ?, Location = ?, LocationID = ?, ModifiedBy = ? WHERE TableID = ?`,
+          [capacity, location, locationID, userID, tableID],
           (error, result) => {
             connection.release();
             if (error) {
@@ -92,3 +98,5 @@ class DiningTable {
     });
   }
 }
+
+module.exports = DiningTable;

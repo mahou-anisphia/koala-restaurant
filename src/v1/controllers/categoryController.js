@@ -18,12 +18,10 @@ class CategoryController {
         Description,
         userID,
       });
-      return res
-        .status(201)
-        .json({
-          message: "Category created successfully",
-          CategoryID: categoryID,
-        });
+      return res.status(201).json({
+        message: "Category created successfully",
+        CategoryID: categoryID,
+      });
     } catch (error) {
       console.error("Error in CreateCategory:", error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -102,7 +100,7 @@ class CategoryController {
     try {
       const dishInCategory = await Dish.getDishesByCategoryID(categoryID);
       // cannot delete category while dishes are still linked with
-      if (dishInCategory) {
+      if (dishInCategory.length > 0) {
         return res.status(400).json({
           message:
             "There are still dishes linked to this category, please delete, or modify them first",

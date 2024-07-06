@@ -259,3 +259,11 @@ JOIN
     Dish d ON md.DishID = d.DishID
 JOIN
     Category c ON d.CategoryID = c.CategoryID;
+
+
+ALTER TABLE DiningTable
+ADD COLUMN CreatedBy INT,
+ADD COLUMN ModifiedBy INT,
+ADD CONSTRAINT Table_fk_createdby FOREIGN KEY (CreatedBy) REFERENCES User(UserID),
+ADD CONSTRAINT Table_fk_modifiedby FOREIGN KEY (ModifiedBy) REFERENCES User(UserID);
+

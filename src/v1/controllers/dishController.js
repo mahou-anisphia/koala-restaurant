@@ -85,9 +85,8 @@ class DishController {
 
       upload.single("image")(req, res, async (err) => {
         if (err) {
-          return res
-            .status(500)
-            .json({ message: "Image upload failed", error: err.message });
+          console.error("Error logging in:", err);
+          return res.status(500).json({ message: "Image upload failed" });
         }
 
         try {
@@ -144,15 +143,13 @@ class DishController {
             }
           }
         } catch (updateErr) {
-          return res
-            .status(500)
-            .json({ message: "Dish update failed", error: updateErr.message });
+          console.error("Error updateDish:", updateErr);
+          return res.status(500).json({ message: "Dish update failed" });
         }
       });
     } catch (err) {
-      return res
-        .status(500)
-        .json({ message: "Internal Server Error", error: err.message });
+      console.error("Error update dish:", err);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
@@ -185,10 +182,8 @@ class DishController {
         return res.status(500).json({ message: "Failed to delete dish" });
       }
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ message: "An error occurred while deleting the dish" });
+      console.error("Error in delete dish", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
@@ -208,7 +203,7 @@ class DishController {
       return res.status(200).json(dish);
     } catch (error) {
       console.error("Error in getDishByID:", error);
-      return res.status(500).json({ message: "Failed to get dish details" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
@@ -229,9 +224,7 @@ class DishController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error Search Occured", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while searching for dish." });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
   static async getDishesByCategoryID(req, res) {
@@ -251,9 +244,7 @@ class DishController {
       return res.status(200).json(dishes);
     } catch (error) {
       console.error("Error in getDishesByCategoryID:", error);
-      return res
-        .status(500)
-        .json({ message: "Failed to get dishes by category ID" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
