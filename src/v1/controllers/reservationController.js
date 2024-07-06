@@ -62,7 +62,7 @@ class ReservationController {
   }
 
   static async ViewReservationsByLocationID(req, res) {
-    const { locationID } = req.params;
+    const { id: locationID } = req.params;
     if (!locationID) {
       return res.status(400).json({ message: "LocationID is required" });
     }
