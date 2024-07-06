@@ -19,7 +19,7 @@ router.get(
 );
 
 // Route to add a new menu (requires user verification)
-router.post("/menu", UserVerifyMiddleware.VerifyWaiter, MenuController.AddMenu);
+router.post("/menu", UserVerifyMiddleware.VerifyOwner, MenuController.AddMenu);
 
 // Route to update menu details (requires user verification)
 router.put(
@@ -52,7 +52,7 @@ router.delete(
 // Route to delete a menu (requires user verification)
 router.delete(
   "/menu/:id",
-  UserVerifyMiddleware.VerifyWaiter,
+  UserVerifyMiddleware.VerifyOwner,
   MenuController.DeleteMenu
 );
 

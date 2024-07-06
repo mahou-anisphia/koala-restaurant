@@ -1,5 +1,5 @@
 const Dish = require("../service/dishServices");
-const Menu = require("../service/dishServices");
+const Menu = require("../service/menuServices");
 const Location = require("../service/locationServices");
 
 class MenuController {
