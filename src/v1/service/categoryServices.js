@@ -1,12 +1,13 @@
 const pool = require("../../data-access/database");
 
 class Category {
-  static async createCategory(categoryData) {
+  static async createCategory(categoryData, userID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         const { Name, Description } = categoryData;
-        const values = { Name, Description };
+        const CreatedBy = userID;
+        const values = { Name, Description, CreatedBy };
 
         connection.query(
           `INSERT INTO Category SET ?`,
@@ -22,16 +23,17 @@ class Category {
       });
     });
   }
-  static async updateCategory(categoryID, categoryData) {
+  static async updateCategory(categoryID, categoryData, userID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         const { Name, Description } = categoryData;
         const values = { Name, Description };
+        const ModifiedBy = userID;
 
         connection.query(
           `UPDATE Category SET ? WHERE CategoryID = ?`,
-          [values, categoryID],
+          [values, categoryID, ModifiedBy],
           (error, result) => {
             connection.release();
             if (error) {
