@@ -28,7 +28,7 @@ class LocationController {
 
       return res
         .status(201)
-        .json({ message: "Location created", locationId: newLocationId });
+        .json({ message: "Location created", locationID: newLocationId });
     } catch (error) {
       console.error("Error in create location:", error);
       return res.status(500).json({ message: "Failed to create location" });

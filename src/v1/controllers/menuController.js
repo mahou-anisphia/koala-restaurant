@@ -116,7 +116,7 @@ class MenuController {
       const menu = await Menu.AddMenu(menuData, userID);
       return res
         .status(201)
-        .json({ message: "Menu added successfully", menuID: menu._id });
+        .json({ message: "Menu added successfully", menuID: menu });
     } catch (error) {
       console.error("Error in AddMenu:", error);
       return res.status(500).json({ message: "Internal Server Error" });

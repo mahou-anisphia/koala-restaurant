@@ -64,7 +64,7 @@ class DishController {
 
         return res
           .status(201)
-          .json({ message: "Dish uploaded successfully", dishID: dish._id });
+          .json({ message: "Dish uploaded successfully", dishID: dish });
       });
     } catch (error) {
       console.error("Error in addDish:", error);

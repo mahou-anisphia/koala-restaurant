@@ -20,7 +20,10 @@ class CategoryController {
       });
       return res
         .status(201)
-        .json({ message: "Category created successfully", categoryID });
+        .json({
+          message: "Category created successfully",
+          CategoryID: categoryID,
+        });
     } catch (error) {
       console.error("Error in CreateCategory:", error);
       return res.status(500).json({ message: "Internal Server Error" });

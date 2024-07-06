@@ -30,7 +30,7 @@ class OwnerController {
         const result = await User.CreateUser(userDetails);
         return res
           .status(201)
-          .json({ message: "User created successfully", result });
+          .json({ message: "User created successfully", userID: result });
       } catch (error) {
         console.error("Error creating user:", error);
         return res
