@@ -38,7 +38,7 @@ router.post(
 // Route to modify the status of a dish on a menu (requires user verification)
 router.put(
   "/menu/dish/status",
-  UserVerifyMiddleware.VerifyWaiter,
+  UserVerifyMiddleware.VerifyWaiterAndChef,
   MenuController.ModifyDishStatus
 );
 
