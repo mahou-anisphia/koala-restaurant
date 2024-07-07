@@ -287,3 +287,14 @@ JOIN
     MealOrder mo ON oi.OrderID = mo.OrderID
 JOIN
     Dish d ON oi.DishID = d.DishID;
+
+INSERT INTO User (Name, Role, ContactDetails, Login, Password, LocationID)
+VALUES ('Walter Hartwell White', 'Chef', NULL, 'Heisenberg', '$2a$10$QWohBJdKwYpzcy7zxyblfOvXZHBOAUZCgANm3mifH407vm4muwxrC', 1);
+INSERT INTO User (Name, Role, ContactDetails, Login, Password, LocationID)
+VALUES ('Gustavo Fring', 'Owner', NULL, 'Gus', '$2a$10$kCHHgNCI3WwL/VcbR8xEsOb5nzHmZ0vTd1rT7Dikb0jF3tS5.3IrW', 1);
+INSERT INTO User (Name, Role, ContactDetails, Login, Password, LocationID)
+VALUES ('Michael Ehrmantraut', 'Waiter', NULL, 'Mike', '$2a$10$wnYmd2JA9Ly/mD/6sMoLCO6Lc3bBgLY2Vval0S13eTk80R4AcTcqG', 1);
+-- logins:
+-- Heisenberg: BlueCrystal
+-- Gus: LosPollos
+-- Mike: Bodyguard
