@@ -20,7 +20,9 @@ class ReservationController {
     const now = new Date();
     const reservationDate = new Date(reservationTime);
     const oneWeekLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-
+    if (isNaN(reservationDate.getTime())) {
+      return res.status(400).json({ message: "Invalid reservation date" });
+    }
     if (reservationDate < now) {
       return res
         .status(400)
