@@ -165,6 +165,16 @@ class OrderController {
       if (!OrderID || !DishID || !Quantity || !Status || !SpecialRequests) {
         return res.status(400).json({ message: "Missing input fields" });
       }
+      const validateStatus = [
+        "ordered",
+        "preparing",
+        "cancelled",
+        "delivered",
+        "completed",
+      ];
+      if (!validateStatus.includes(Status)) {
+        return res.status(400).json({ message: "Invalid Status Entered" });
+      }
       const verifyOrder = await Order.readOrder(OrderID);
       if (!verifyOrder) {
         return res.status(400).json({ message: "Invalid order" });
@@ -189,7 +199,13 @@ class OrderController {
       if (!orderItemId || !status) {
         return res.status(400).json({ message: "Missing fields!" });
       }
-      const validateStatus = ["Pending", "Preparing", "Served", "Completed"];
+      const validateStatus = [
+        "ordered",
+        "preparing",
+        "cancelled",
+        "delivered",
+        "completed",
+      ];
       if (!validateStatus.includes(status)) {
         return res.status(400).json({ message: "Invalid Status Entered" });
       }
@@ -209,28 +225,51 @@ class OrderController {
 
   // Show all items in a location
   // for chief, serve one by one
-  static async showItemsByLocation(req, res) {
-    try {
-      const { id: locationId } = req.params;
-      if (!locationId) {
-        return res.status(400).json({ message: "Missing fields!" });
-      }
-      const items = await Order.showItemsByLocation(locationId);
-      res.status(200).json({ items });
-    } catch (error) {
-      console.error("Error in showItemsByLocation", error);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
-  }
-  // for waiter
-  // show all for serving
-  static async showItemsByStatusAndLocation(req, res) {
+  static async showItemsByStatusLocation(req, res) {
     try {
       const { id: locationId, status: status } = req.params;
       if (!locationId || !status) {
         return res.status(400).json({ message: "Missing fields!" });
       }
-      const items = await Order.showItemsByStatusAndLocation(
+      const validateStatus = [
+        "ordered",
+        "preparing",
+        "cancelled",
+        "delivered",
+        "completed",
+      ];
+      if (!validateStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid Status Entered" });
+      }
+      const items = await Order.showItemsByLocationAndStatus(
+        status,
+        locationId
+      );
+      res.status(200).json({ success: true, items });
+    } catch (error) {
+      console.error("Error in showItemsByStatusLocation", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  // for waiter
+  // show all for serving
+  static async showItemsByStatusAndLocationWithTable(req, res) {
+    try {
+      const { id: locationId, status: status } = req.params;
+      if (!locationId || !status) {
+        return res.status(400).json({ message: "Missing fields!" });
+      }
+      const validateStatus = [
+        "ordered",
+        "preparing",
+        "cancelled",
+        "delivered",
+        "completed",
+      ];
+      if (!validateStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid Status Entered" });
+      }
+      const items = await Order.showItemsByStatusAndLocationWithTable(
         status,
         locationId
       );
@@ -238,6 +277,23 @@ class OrderController {
     } catch (error) {
       console.error("Error in showItemsByStatusAndLocation", error);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async showOrdersByStatusAndLocation(req, res) {
+    const { status: status, id: locationID } = req.params;
+    const validateStatus = ["Pending", "Preparing", "Served", "Completed"];
+    if (!validateStatus.includes(status)) {
+      return res.status(400).json({ message: "Invalid Status Entered" });
+    }
+    try {
+      const orders = await Order.findByStatusAndLocation(status, locationID);
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res
+        .status(500)
+        .json({ message: "An error occurred while fetching orders." });
     }
   }
 }

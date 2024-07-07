@@ -298,3 +298,34 @@ VALUES ('Michael Ehrmantraut', 'Waiter', NULL, 'Mike', '$2a$10$wnYmd2JA9Ly/mD/6s
 -- Heisenberg: BlueCrystal
 -- Gus: LosPollos
 -- Mike: Bodyguard
+
+CREATE VIEW OrderItemDetails AS
+SELECT
+    oi.OrderItemID,
+    oi.OrderID,
+    mo.UserID,
+    mo.TableID,
+    mo.OrderTime,
+    mo.Status AS OrderStatus,
+    mo.LocationID,
+    oi.DishID,
+    d.Name AS DishName,
+    oi.Quantity,
+    oi.Status AS ItemStatus,
+    oi.SpecialRequests
+FROM
+    OrderItem oi
+JOIN
+    MealOrder mo ON oi.OrderID = mo.OrderID
+JOIN
+    Dish d ON oi.DishID = d.DishID;
+
+CREATE VIEW OrderItemWithTableDetails AS
+SELECT
+    oid.*,
+    dt.Capacity AS TableCapacity,
+    dt.Location AS TableLocation
+FROM
+    OrderItemDetails oid
+JOIN
+    DiningTable dt ON oid.TableID = dt.TableID;

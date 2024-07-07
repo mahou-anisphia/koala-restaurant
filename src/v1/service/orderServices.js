@@ -174,29 +174,29 @@ class Order {
   }
 
   // Show all items in a location
-  static async showItemsByLocation(locationID) {
+  static async showItemsByLocationAndStatus(status, locationID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
 
         const query = `
-          SELECT *
-          FROM OrderItemDetails
-          WHERE LocationID = ?
-        `;
+        SELECT *
+        FROM OrderItemDetails
+        WHERE ItemStatus = ? AND LocationID = ?
+      `;
 
-        connection.query(query, [locationID], (error, results) => {
+        connection.query(query, [status, locationID], (error, results) => {
           connection.release();
           if (error) {
             return reject(error);
           }
-          resolve(results); // Return the list of order items in the location
+          resolve(results); // Return the list of order items with dining table info
         });
       });
     });
   }
   // Fetch all items by status and LocationID using the view
-  static async showItemsByStatusAndLocation(status, locationID) {
+  static async showItemsByStatusAndLocationWithTable(status, locationID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
@@ -217,6 +217,49 @@ class Order {
       });
     });
   }
+  // to be added
+  static async showOrdersByStatusAndLocation(status, locationID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        const query = `
+        SELECT *
+        FROM OrderItemWithTableDetails
+        WHERE OrderStatus = ? AND LocationID = ?
+      `;
+
+        connection.query(query, [status, locationID], (error, results) => {
+          connection.release();
+          if (error) {
+            return reject(error);
+          }
+          resolve(results); // Return the list of order items with dining table info
+        });
+      });
+    });
+  }
+  // static async showItemsByStatusAndOrderID(status, orderID) {
+  //   return new Promise((resolve, reject) => {
+  //     pool.getConnection((err, connection) => {
+  //       if (err) return reject(err);
+
+  //       const query = `
+  //       SELECT *
+  //       FROM OrderItemWithTableDetails
+  //       WHERE ItemStatus = ? AND OrderID = ?
+  //     `;
+
+  //       connection.query(query, [status, orderID], (error, results) => {
+  //         connection.release();
+  //         if (error) {
+  //           return reject(error);
+  //         }
+  //         resolve(results); // Return the list of order items with dining table info
+  //       });
+  //     });
+  //   });
+  // }
 }
 
 module.exports = Order;
