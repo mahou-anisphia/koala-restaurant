@@ -267,3 +267,23 @@ ADD COLUMN ModifiedBy INT,
 ADD CONSTRAINT Table_fk_createdby FOREIGN KEY (CreatedBy) REFERENCES User(UserID),
 ADD CONSTRAINT Table_fk_modifiedby FOREIGN KEY (ModifiedBy) REFERENCES User(UserID);
 
+CREATE VIEW OrderItemDetails AS
+SELECT
+    oi.OrderItemID,
+    oi.OrderID,
+    mo.UserID,
+    mo.TableID,
+    mo.OrderTime,
+    mo.Status AS OrderStatus,
+    mo.LocationID,
+    oi.DishID,
+    d.Name AS DishName,
+    oi.Quantity,
+    oi.Status AS ItemStatus,
+    oi.SpecialRequests
+FROM
+    OrderItem oi
+JOIN
+    MealOrder mo ON oi.OrderID = mo.OrderID
+JOIN
+    Dish d ON oi.DishID = d.DishID;
