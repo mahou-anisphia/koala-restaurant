@@ -131,19 +131,24 @@ class Reservation {
       });
     });
   }
-  static async ViewReservationsByTableID(req, res) {
-    const { tableID } = req.params;
-    if (!tableID) {
-      return res.status(400).json({ message: "TableID is required" });
-    }
+  static async GetReservationsByStatusAndLocationID(status, locationID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
 
-    try {
-      const reservations = await Reservation.GetReservationsByTableID(tableID);
-      return res.status(200).json({ reservations });
-    } catch (error) {
-      console.error("Error in ViewReservationsByTableID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
+        connection.query(
+          `SELECT * FROM Reservation WHERE Status = ? AND LocationID = ?`,
+          [status, locationID],
+          (error, results) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(results); // Resolve with the list of reservations
+          }
+        );
+      });
+    });
   }
 }
 

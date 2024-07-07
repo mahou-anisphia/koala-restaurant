@@ -195,6 +195,28 @@ class Order {
       });
     });
   }
+  // Fetch all items by status and LocationID using the view
+  static async showItemsByStatusAndLocation(status, locationID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        const query = `
+        SELECT *
+        FROM OrderItemWithTableDetails
+        WHERE ItemStatus = ? AND LocationID = ?
+      `;
+
+        connection.query(query, [status, locationID], (error, results) => {
+          connection.release();
+          if (error) {
+            return reject(error);
+          }
+          resolve(results); // Return the list of order items with dining table info
+        });
+      });
+    });
+  }
 }
 
 module.exports = Order;

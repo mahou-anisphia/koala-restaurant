@@ -5,6 +5,11 @@ const router = express.Router();
 
 // CURRENT VERSION DOES NOT SUPPORT CUSTOMER RESERVE FOR THEMSELVES
 router.get(
+  "/reservation/location/:id/status/:status",
+  UserVerifyMiddleware.VerifyWaiter,
+  ReservationController.GetReservationsByStatusAndLocationID
+);
+router.get(
   "/reservation/location/:id",
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.ViewReservationsByLocationID

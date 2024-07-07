@@ -11,18 +11,38 @@ class ReservationController {
     if (!tableID || !reservationTime || !status || !locationID) {
       return res.status(400).json({ message: "Required fields are missing" });
     }
+
     const validStatus = ["Pending", "Confirmed", "Cancelled"];
     if (!validStatus.includes(status)) {
       return res.status(400).json({ message: "Invalid Status" });
     }
+
+    const now = new Date();
+    const reservationDate = new Date(reservationTime);
+    const oneWeekLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    if (reservationDate < now) {
+      return res
+        .status(400)
+        .json({ message: "Reservation time cannot be in the past" });
+    }
+
+    if (reservationDate > oneWeekLater) {
+      return res.status(400).json({
+        message: "Reservation time cannot be more than a week in advance",
+      });
+    }
+
     const validateLocation = await Location.FindByID(locationID);
     if (!validateLocation) {
       return res.status(400).json({ message: "Location does not exist" });
     }
+
     const validateTable = await DiningTable.getDiningTableByID(tableID);
     if (!validateTable) {
       return res.status(400).json({ message: "Table does not exist" });
     }
+
     try {
       const reservationID = await Reservation.CreateReservation(
         userID,
@@ -126,6 +146,32 @@ class ReservationController {
       }
     } catch (error) {
       console.error("Error in DeleteReservation:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  static async GetReservationsByStatusAndLocationID(req, res) {
+    const { status: status, id: locationID } = req.params;
+
+    if (!status || !locationID) {
+      return res
+        .status(400)
+        .json({ message: "Status and LocationID are required" });
+    }
+
+    const validStatus = ["Pending", "Confirmed", "Cancelled"];
+    if (!validStatus.includes(status)) {
+      return res.status(400).json({ message: "Invalid Status" });
+    }
+
+    try {
+      const reservations =
+        await Reservation.GetReservationsByStatusAndLocationID(
+          status,
+          locationID
+        );
+      return res.status(200).json({ reservations });
+    } catch (error) {
+      console.error("Error in GetReservationsByStatusAndLocationID:", error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
