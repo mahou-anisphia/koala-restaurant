@@ -144,7 +144,7 @@ class UserController {
       user.LocationID = LocationID || user.LocationID;
 
       try {
-        const result = await User.UpdateUser(userID, user);
+        const result = await User.UpdateUser(user.userID, user);
         if (result.affectedRows === 0) {
           return res.status(500).json({ error: "Internal server error" });
         }
