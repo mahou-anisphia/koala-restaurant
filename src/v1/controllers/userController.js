@@ -18,6 +18,9 @@ class UserController {
   static async Login(req, res) {
     const { username, password } = req.body;
     try {
+      if (!username || !password) {
+        return res.status(400).json({ message: "Missing input fields!" });
+      }
       const user = await User.FindByUsername(username);
       if (!user) {
         return res
@@ -98,8 +101,14 @@ class UserController {
   }
   static async UpdateUser(req, res) {
     const userID = req.user.UserID;
-    const { Name, Role, ContactDetails, Login, Password, LocationID } =
-      req.body;
+    const {
+      name: Name,
+      role: Role,
+      contactDetails: ContactDetails,
+      login: Login,
+      password: Password,
+      locationID: LocationID,
+    } = req.body;
 
     try {
       const user = await User.FindByID(userID);
@@ -114,6 +123,12 @@ class UserController {
       user.Login = Login || user.Login;
       if (Password) {
         user.Password = await bcrypt.hash(Password, 10);
+      }
+      if (LocationID) {
+        const verifyLocation = await Location.FindByID(LocationID);
+        if (!verifyLocation) {
+          return res.status(400).json({ message: "Invalid LocationID" });
+        }
       }
       user.LocationID = LocationID || user.LocationID;
 
