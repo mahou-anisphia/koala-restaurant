@@ -57,9 +57,7 @@ class UserController {
       try {
         const validate = await User.ChangePassword(userID, hashedNewPassword);
         if (!validate) {
-          return res
-            .status(400)
-            .json({ message: "Password cannot match old password" });
+          return res.status(500).json({ message: "Failed to update password" });
         }
         return res
           .status(200)
@@ -92,6 +90,9 @@ class UserController {
 
     try {
       const location = await Location.FindByID(LocationID);
+      // if (Object.keys(location).length === 0) {
+      //   location = "Missing field!";
+      // }
       const profile = {
         UserID,
         Name,
@@ -110,10 +111,10 @@ class UserController {
     }
   }
   static async UpdateUser(req, res) {
-    const userID = req.user.UserID;
+    // const userID = req.user.UserID;
+    const user = req.user;
     const {
       name: Name,
-      role: Role,
       contactDetails: ContactDetails,
       login: Login,
       password: Password,
@@ -121,14 +122,14 @@ class UserController {
     } = req.body;
 
     try {
-      const user = await User.FindByID(userID);
+      // const user = await User.FindByID(userID);
 
-      if (!user) {
-        return res.status(404).json({ error: "User does not exist" });
-      }
+      // if (!user) {
+      //   return res.status(404).json({ error: "User does not exist" });
+      // }
 
       user.Name = Name || user.Name;
-      user.Role = Role || user.Role;
+      // user.Role = Role || user.Role;
       user.ContactDetails = ContactDetails || user.ContactDetails;
       user.Login = Login || user.Login;
       if (Password) {
@@ -136,7 +137,7 @@ class UserController {
       }
       if (LocationID) {
         const verifyLocation = await Location.FindByID(LocationID);
-        if (!verifyLocation) {
+        if (Object.keys(verifyLocation).length === 0) {
           return res.status(400).json({ message: "Invalid LocationID" });
         }
       }
@@ -145,24 +146,18 @@ class UserController {
       try {
         const result = await User.UpdateUser(userID, user);
         if (result.affectedRows === 0) {
-          return res
-            .status(500)
-            .json({ error: "An error occurred while saving your updates" });
+          return res.status(500).json({ error: "Internal server error" });
         }
         return res
           .status(200)
           .json({ message: "User updated successfully", result });
       } catch (error) {
         console.error("Error updating user:", error);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while updating the user" });
+        return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
       console.error("Error finding user:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while updating the user" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 }
