@@ -50,6 +50,9 @@ class UserController {
     try {
       const newPassword = req.body.newPassword;
       const userID = req.user.UserID;
+      if (!newPassword) {
+        return res.status(400).json({ message: "Missing input fields!" });
+      }
       const hashedNewPassword = await bcrypt.hash(newPassword, 10);
       try {
         await User.ChangePassword(userID, hashedNewPassword);
