@@ -55,8 +55,15 @@ class UserController {
       }
       const hashedNewPassword = await bcrypt.hash(newPassword, 10);
       try {
-        await User.ChangePassword(userID, hashedNewPassword);
-        return res.json({ message: "Password updated successfully" });
+        const validate = await User.ChangePassword(userID, hashedNewPassword);
+        if (!validate) {
+          return res
+            .status(400)
+            .json({ message: "Password cannot match old password" });
+        }
+        return res
+          .status(200)
+          .json({ message: "Password updated successfully" });
       } catch (error) {
         console.error("Error changing password:", error);
         return res.status(500).json({ message: "Internal server error" });
