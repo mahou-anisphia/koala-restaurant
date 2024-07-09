@@ -5,8 +5,14 @@ const Location = require("../service/locationServices");
 class OwnerController {
   static async CreateUser(req, res) {
     try {
-      const { Name, Role, ContactDetails, Login, loginPassword, LocationID } =
-        req.body;
+      const {
+        name: Name,
+        role: Role,
+        contactDetails: ContactDetails,
+        login: Login,
+        password: loginPassword,
+        locationID: LocationID,
+      } = req.body;
       if (!Name || !Role || !Login || !loginPassword || !LocationID) {
         return res.status(400).json({ error: "Missing required fields" });
       }
@@ -15,7 +21,10 @@ class OwnerController {
       if (!validRoles.includes(Role)) {
         return res.status(400).json({ error: "Invalid role" });
       }
-
+      const verifyLocation = await Location.FindByID(LocationID);
+      if (Object.keys(verifyLocation).length === 0) {
+        return res.status(400).json({ message: "Invalid LocationID" });
+      }
       const Password = await bcrypt.hash(loginPassword, 10);
       const userDetails = {
         Name,
@@ -33,22 +42,24 @@ class OwnerController {
           .json({ message: "User created successfully", userID: result });
       } catch (error) {
         console.error("Error creating user:", error);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while creating the user" });
+        return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while creating the user" });
+      console.error("Error in CreateUser", error);
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 
   static async UpdateUser(req, res) {
     const userID = req.params.id;
-    const { Name, Role, ContactDetails, Login, Password, LocationID } =
-      req.body;
+    const {
+      name: Name,
+      role: Role,
+      contactDetails: ContactDetails,
+      login: Login,
+      password: Password,
+      locationID: LocationID,
+    } = req.body;
 
     try {
       const user = await User.FindByID(userID);
@@ -58,35 +69,42 @@ class OwnerController {
       }
 
       user.Name = Name || user.Name;
-      user.Role = Role || user.Role;
+      if (Role) {
+        const validRoles = ["Chef", "Waiter", "Customer", "Owner"];
+        if (!validRoles.includes(Role)) {
+          return res.status(400).json({ error: "Invalid role" });
+        }
+        user.Role = Role;
+      }
       user.ContactDetails = ContactDetails || user.ContactDetails;
       user.Login = Login || user.Login;
       if (Password) {
         user.Password = await bcrypt.hash(Password, 10);
       }
-      user.LocationID = LocationID || user.LocationID;
+      if (LocationID) {
+        const verifyLocation = await Location.FindByID(LocationID);
+        if (Object.keys(verifyLocation).length === 0) {
+          return res.status(400).json({ message: "Invalid LocationID" });
+        }
+        user.LocationID = LocationID;
+      }
 
       try {
         const result = await User.UpdateUser(userID, user);
         if (result.affectedRows === 0) {
-          return res
-            .status(500)
-            .json({ error: "An error occurred while saving your updates" });
+          console.error("No row affected in update user!");
+          return res.status(500).json({ error: "Internal Server Error" });
         }
         return res
           .status(200)
           .json({ message: "User updated successfully", result });
       } catch (error) {
         console.error("Error updating user:", error);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while updating the user" });
+        return res.status(500).json({ error: "Internal Server Error" });
       }
     } catch (error) {
       console.error("Error finding user:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while updating the user" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -100,7 +118,7 @@ class OwnerController {
       return res.status(200).json({ message: "User deleted successfully." });
     } catch (error) {
       console.error("Error deleting user:", error);
-      return res.status(500).json({ error: "Internal server error." });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 
@@ -122,15 +140,11 @@ class OwnerController {
         return res.status(200).json(profile);
       } catch (error) {
         console.error("Error fetching location:", error);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while fetching the location" });
+        return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while fetching the user" });
+      console.error("Error ViewEmployeeAccount:", error);
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 

@@ -146,6 +146,7 @@ class UserController {
       try {
         const result = await User.UpdateUser(user.UserID, user);
         if (result.affectedRows === 0) {
+          console.error("No row affected in update user!");
           return res.status(500).json({ error: "Internal server error" });
         }
         return res
