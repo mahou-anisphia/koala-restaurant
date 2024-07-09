@@ -187,6 +187,9 @@ class OwnerController {
   static async AssignUserRole(req, res) {
     const userId = req.params.id;
     const role = req.body.role;
+    if (!role) {
+      return res.status(400).json({ error: "Missing input fields" });
+    }
     const validRoles = ["Chef", "Waiter", "Customer", "Owner"];
     if (!validRoles.includes(role)) {
       return res.status(400).json({ error: "Invalid role" });
