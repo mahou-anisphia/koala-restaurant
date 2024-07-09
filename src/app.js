@@ -34,6 +34,9 @@ const swaggerDefinition = {
     },
   ],
 };
+
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 const app = express();
 app.use(helmet());
 app.use(cors());
@@ -83,6 +86,10 @@ app.use(
   "/api",
   express.static(path.join(__dirname, "node_modules/swagger-ui-dist"))
 );
-app.use("/api/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api/",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
+);
 
 module.exports = app;
