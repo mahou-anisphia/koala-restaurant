@@ -3,14 +3,47 @@ const bodyParser = require("body-parser");
 const connection = require("./data-access/database");
 const helmet = require("helmet");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
 
+const swaggerDefinition = {
+  openapi: "3.0.0",
+  info: {
+    title: "Express API for Koala Restaurant",
+    version: "1.0.0",
+    description:
+      "This is a REST API application made with Express. It retrieves data from AWS RDS, and interract with Amazon S3.",
+    license: {
+      name: "Licensed Under MIT",
+      url: "https://spdx.org/licenses/MIT.html",
+    },
+    // contact: {
+    //   name: 'JSONPlaceholder',
+    //   url: 'https://jsonplaceholder.typicode.com',
+    // },
+  },
+  servers: [
+    {
+      url: "http://localhost:3000",
+      description: "Development server",
+    },
+    {
+      url: "https://koala-restaurant.vercel.app/",
+      description: "Production server",
+    },
+  ],
+};
 const app = express();
 app.use(helmet());
 app.use(cors());
 // avoid being attacked by common HTTP
 app.disable("x-powered-by");
 // reduce fingerprints
-
+const options = {
+  swaggerDefinition,
+  // Path to the API docs
+  apis: ["./src/v1/routes/**.js"], // files containing annotations as above
+};
 //routes defines (to be seperated)
 const devRoutes = require("./v1/routes/devRoutes");
 const userRoutes = require("./v1/routes/userRoutes");
@@ -25,8 +58,10 @@ const orderRoutes = require("./v1/routes/orderRoutes");
 
 app.use(bodyParser.json());
 
+const swaggerSpec = swaggerJSDoc(options);
+
 app.use((req, res, next) => {
-  if (req.url === "/" || req.url === "/api" || req.url === "/api/v1") {
+  if (req.url === "/api" || req.url === "/api/v1") {
     res.status(403).send("Redirects are not allowed");
   } else {
     next();
@@ -43,5 +78,6 @@ app.use("/api/v1/", categoryRoutes);
 app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
