@@ -78,6 +78,6 @@ app.use("/api/v1/", categoryRoutes);
 app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
-app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
