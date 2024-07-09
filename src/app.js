@@ -61,7 +61,7 @@ app.use(bodyParser.json());
 const swaggerSpec = swaggerJSDoc(options);
 
 app.use((req, res, next) => {
-  if (req.url === "/api" || req.url === "/api/v1") {
+  if (req.url === "/api/v1") {
     res.status(403).send("Redirects are not allowed");
   } else {
     next();
@@ -78,6 +78,6 @@ app.use("/api/v1/", categoryRoutes);
 app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
