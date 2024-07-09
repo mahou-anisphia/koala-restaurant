@@ -3,6 +3,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../service/userServices");
 const Location = require("../service/locationServices");
+const ER_DUP_ENTRY = "ER_DUP_ENTRY";
 
 class UserController {
   static generateToken(user) {
@@ -157,6 +158,9 @@ class UserController {
         return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
+      if (error.code === ER_DUP_ENTRY) {
+        return res.status(409).json({ error: "Duplicate username error" });
+      }
       console.error("Error finding user:", error);
       return res.status(500).json({ error: "Internal server error" });
     }

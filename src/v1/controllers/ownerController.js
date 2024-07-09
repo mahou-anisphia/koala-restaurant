@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../service/userServices");
 const Location = require("../service/locationServices");
+const ER_DUP_ENTRY = "ER_DUP_ENTRY";
 
 class OwnerController {
   static async CreateUser(req, res) {
@@ -45,6 +46,9 @@ class OwnerController {
         return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
+      if (error.code === ER_DUP_ENTRY) {
+        return res.status(409).json({ error: "Duplicate username error" });
+      }
       console.error("Error in CreateUser", error);
       return res.status(500).json({ error: "Internal server error" });
     }
@@ -193,6 +197,9 @@ class OwnerController {
         .status(200)
         .json({ message: "User's role updated successfully", result });
     } catch (error) {
+      if (error.code === ER_DUP_ENTRY) {
+        return res.status(409).json({ error: "Duplicate username error" });
+      }
       console.error("Error Assign Role to User:", error);
       return res.status(500).json({ error: "Internal server error" });
     }
