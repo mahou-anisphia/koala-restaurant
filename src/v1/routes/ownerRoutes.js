@@ -40,7 +40,7 @@ router.patch(
   UserVerifyMiddleware.VerifyOwner,
   OwnerController.AssignUserRole
 );
-router.get(
+router.post(
   "/owner/search/:searchQueries",
   UserVerifyMiddleware.VerifyOwner,
   OwnerController.SearchUser
