@@ -103,6 +103,9 @@ class OwnerController {
           .status(200)
           .json({ message: "User updated successfully", result });
       } catch (error) {
+        if (error.code === ER_DUP_ENTRY) {
+          return res.status(409).json({ error: "Duplicate username error" });
+        }
         console.error("Error updating user:", error);
         return res.status(500).json({ error: "Internal Server Error" });
       }
@@ -197,9 +200,6 @@ class OwnerController {
         .status(200)
         .json({ message: "User's role updated successfully", result });
     } catch (error) {
-      if (error.code === ER_DUP_ENTRY) {
-        return res.status(409).json({ error: "Duplicate username error" });
-      }
       console.error("Error Assign Role to User:", error);
       return res.status(500).json({ error: "Internal server error" });
     }
