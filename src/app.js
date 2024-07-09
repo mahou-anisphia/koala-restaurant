@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
+const path = require("path");
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -78,6 +79,10 @@ app.use("/api/v1/", categoryRoutes);
 app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
+app.use(
+  "/api",
+  express.static(path.join(__dirname, "node_modules/swagger-ui-dist"))
+);
 app.use("/api/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
