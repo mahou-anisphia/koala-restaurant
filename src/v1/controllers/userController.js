@@ -137,7 +137,7 @@ class UserController {
       }
       if (LocationID) {
         const verifyLocation = await Location.FindByID(LocationID);
-        if (Object.keys(verifyLocation).length === 0) {
+        if (!verifyLocation) {
           return res.status(400).json({ message: "Invalid LocationID" });
         }
       }

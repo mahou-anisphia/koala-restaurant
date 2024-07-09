@@ -22,7 +22,7 @@ class OwnerController {
         return res.status(400).json({ error: "Invalid role" });
       }
       const verifyLocation = await Location.FindByID(LocationID);
-      if (Object.keys(verifyLocation).length === 0) {
+      if (!verifyLocation) {
         return res.status(400).json({ message: "Invalid LocationID" });
       }
       const Password = await bcrypt.hash(loginPassword, 10);
@@ -154,9 +154,7 @@ class OwnerController {
       return res.status(200).json(userList);
     } catch (error) {
       console.error("Error fetching users:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while fetching the users" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 
@@ -176,9 +174,7 @@ class OwnerController {
       return res.status(200).json(sanitizedUserList);
     } catch (error) {
       console.error("Error fetching users:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while fetching the users" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
   static async AssignUserRole(req, res) {
@@ -198,9 +194,7 @@ class OwnerController {
         .json({ message: "User's role updated successfully", result });
     } catch (error) {
       console.error("Error Assign Role to User:", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while assigning role to user" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
   static async SearchUser(req, res) {
@@ -210,9 +204,7 @@ class OwnerController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error Search Occured", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while searching for user." });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 }
