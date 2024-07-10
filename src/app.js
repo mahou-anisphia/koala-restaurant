@@ -15,8 +15,8 @@ const swaggerDefinition = {
     description:
       "This is a REST API application made with Express. It retrieves data from AWS RDS, and interract with Amazon S3.",
     license: {
-      name: "Licensed Under MIT",
-      url: "https://spdx.org/licenses/MIT.html",
+      name: "Licensed Under Creative Commons Attribution-NonCommercial (CC BY-NC) 4.0 International License",
+      url: "https://creativecommons.org/licenses/by-nc/4.0/",
     },
     // contact: {
     //   name: 'JSONPlaceholder',
