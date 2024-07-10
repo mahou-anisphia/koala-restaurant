@@ -7,7 +7,7 @@ class LocationController {
       return res.status(200).json(locations);
     } catch (error) {
       console.error("Error in get all Locations:", error);
-      return res.status(500).json({ message: "Failed to fetch locations" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -88,7 +88,8 @@ class LocationController {
       const updated = await Location.UpdateLocation(locationId, updateLocation);
 
       if (!updated) {
-        return res.status(400).json({ message: "Nothing to update" });
+        console.error("Database error in update location");
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       return res.status(200).json({ message: "Location updated" });
@@ -117,7 +118,7 @@ class LocationController {
       return res.status(200).json({ message: "Location deleted" });
     } catch (error) {
       console.error("Error in delete location:", error);
-      return res.status(500).json({ message: "Failed to delete location" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async SearchLocation(req, res) {
