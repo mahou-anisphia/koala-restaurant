@@ -37,7 +37,7 @@ class LocationController {
         .json({ message: "Location created", locationID: newLocationId });
     } catch (error) {
       console.error("Error in create location:", error);
-      return res.status(500).json({ message: "Failed to create location" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -63,11 +63,27 @@ class LocationController {
   static async UpdateLocation(req, res) {
     try {
       const locationId = req.params.id;
-      const { Address, City, State, ZipCode, Country } = req.body;
+      const {
+        address: Address,
+        city: City,
+        state: State,
+        zipCode: ZipCode,
+        country: Country,
+      } = req.body;
 
-      if (!locationId || !Address || !City || !State || !ZipCode || !Country) {
-        return res.status(400).json({ message: "All fields are required" });
+      if (!locationId) {
+        return res.status(400).json({ message: "LocationID is required" });
       }
+
+      const updateLocation = await Location.FindByID(locationId);
+      if (!updateLocation) {
+        return res.status(404).json({ message: "Location not found" });
+      }
+      Address = Address || updateLocation.Address;
+      City = City || updateLocation.City;
+      State = State || updateLocation.State;
+      ZipCode = ZipCode || updateLocation.ZipCode;
+      Country = Country || updateLocation.Country;
 
       const updated = await Location.UpdateLocation(locationId, {
         Address,
@@ -78,13 +94,13 @@ class LocationController {
       });
 
       if (!updated) {
-        return res.status(404).json({ message: "Location not found" });
+        return res.status(400).json({ message: "Nothing to update" });
       }
 
       return res.status(200).json({ message: "Location updated" });
     } catch (error) {
       console.error("Error in update location:", error);
-      return res.status(500).json({ message: "Failed to update location" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
