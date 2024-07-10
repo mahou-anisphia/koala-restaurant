@@ -33,6 +33,19 @@ const swaggerDefinition = {
       description: "Production server",
     },
   ],
+  basePath: "/api/v1/",
+  components: {
+    schemes: ["http", "https"],
+    securitySchemes: {
+      bearerAuth: {
+        type: "apiKey",
+        name: "Authorization",
+        scheme: "bearer",
+        in: "header",
+      },
+    },
+  },
+  security: [{ bearerAuth: [] }],
 };
 
 const CSS_URL =

@@ -70,6 +70,34 @@ router.patch(
   UserVerifyMiddleware.VerifyUser,
   UserController.ChangePassword
 );
+
+/**
+ * @swagger
+ * /api/v1/user/view-profile:
+ *   get:
+ *     summary: Retrieve the user's information
+ *     description: Retrieve the user's info from the DB
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: "12345"
+ *                 name:
+ *                   type: string
+ *                   example: "John Doe"
+ *                 email:
+ *                   type: string
+ *                   example: "john.doe@example.com"
+ */
+
 router.get(
   "/user/view-profile",
   UserVerifyMiddleware.VerifyUser,

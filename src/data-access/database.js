@@ -9,6 +9,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
+// try catch no pool conn
 pool.on("connection", (connection) => {
   console.log("New connection established with ID " + connection.threadId);
 });

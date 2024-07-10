@@ -35,6 +35,7 @@ class ReservationController {
       });
     }
 
+    // add try catch block
     const validateLocation = await Location.FindByID(locationID);
     if (!validateLocation) {
       return res.status(400).json({ message: "Location does not exist" });
