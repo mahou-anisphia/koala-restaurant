@@ -91,7 +91,7 @@ class User {
           if (error) {
             return reject(error);
           }
-          resolve(result.insertID);
+          resolve(result.insertId);
         });
       });
     });
