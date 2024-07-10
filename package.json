@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "The EHC Team",
-  "license": "ISC",
+  "license": "CC BY-NC 4.0",
   "dependencies": {
     "@babel/runtime": "^7.22.10",
     "aws-sdk": "^2.1594.0",
