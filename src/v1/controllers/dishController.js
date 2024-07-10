@@ -10,72 +10,86 @@ class DishController {
   // Function to add a new dish to the database
 
   static async addDish(req, res) {
-    const {
-      name: Name,
-      description: Description,
-      price: Price,
-      preparationTime: PreparationTime,
-      categoryID: CategoryID,
-    } = req.body;
-    const userID = req.user.UserID;
-
     try {
-      // Check if required fields are present
-      if (!Name || !Description || !Price || !PreparationTime || !CategoryID) {
-        return res.status(400).json({ message: "Dish Missing Field!" });
-      }
-
-      // Handle file upload
       upload.single("image")(req, res, async (err) => {
-        if (err) {
-          return res.status(400).json({ message: "Error uploading file" });
-        }
-
-        if (!req.file) {
-          return res.status(400).json({ message: "No file uploaded" });
-        }
+        const {
+          name: Name,
+          description: Description,
+          price: Price,
+          preparationTime: PreparationTime,
+          categoryID: CategoryID,
+        } = req.body;
+        const userID = req.user.UserID;
 
         try {
-          // Validate category
-          const validateCategory = await Category.getCategoryByID(CategoryID);
-          if (!validateCategory) {
-            return res.status(400).json({ message: "Category Does Not Exist" });
+          // Check if required fields are present
+          if (
+            !Name ||
+            !Description ||
+            !Price ||
+            !PreparationTime ||
+            !CategoryID
+          ) {
+            return res.status(400).json({ message: "Dish Missing Field!" });
           }
 
-          // Generate unique image key
-          const imageKey = `${uuidv4()}-${req.file.originalname}`;
+          // Handle file upload
 
-          // Upload image to S3
-          const imageLink = await S3UploadUtils.uploadImageToS3(
-            req.file,
-            imageKey
-          );
+          if (err) {
+            return res.status(400).json({ message: "Error uploading file" });
+          }
 
-          // Prepare data to save in database
-          const productData = {
-            Name,
-            Description,
-            Price,
-            PreparationTime,
-            ImageLink: imageLink,
-            CategoryID,
-            CreatedBy: userID,
-            ModifiedBy: userID,
-          };
+          if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+          }
 
-          // Save dish data in database
-          const dish = await Dish.addDish(productData);
+          try {
+            // Validate category
+            const validateCategory = await Category.getCategoryByID(CategoryID);
+            if (!validateCategory) {
+              return res
+                .status(400)
+                .json({ message: "Category Does Not Exist" });
+            }
 
-          return res
-            .status(201)
-            .json({ message: "Dish uploaded successfully", dishID: dish });
+            // Generate unique image key
+            const imageKey = `${uuidv4()}-${req.file.originalname}`;
+
+            // Upload image to S3
+            const imageLink = await S3UploadUtils.uploadImageToS3(
+              req.file,
+              imageKey
+            );
+
+            // Prepare data to save in database
+            const productData = {
+              Name,
+              Description,
+              Price,
+              PreparationTime,
+              ImageLink: imageLink,
+              CategoryID,
+              CreatedBy: userID,
+              ModifiedBy: userID,
+            };
+
+            // Save dish data in database
+            const dish = await Dish.addDish(productData);
+
+            return res
+              .status(201)
+              .json({ message: "Dish uploaded successfully", dishID: dish });
+          } catch (error) {
+            console.error("Error while adding dish:", error);
+            return res.status(500).json({ message: "Internal Server Error" });
+          }
         } catch (error) {
-          console.error("Error while adding dish:", error);
+          console.error("Error in addDish:", error);
           return res.status(500).json({ message: "Internal Server Error" });
         }
       });
     } catch (error) {
-      console.error("Error in addDish:", error);
+      console.error("Error in deconstruct multipart form:", error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
