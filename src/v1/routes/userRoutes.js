@@ -134,18 +134,15 @@ router.post("/user/login", UserController.Login);
  *                   type: string
  *                   example: User does not exist
  *       500:
- *         description: Failed to update password or internal server error
+ *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               examples:
- *                 ChangeFailed:
- *                   value:
- *                     message: Failed to update password
- *                 InternalServerError:
- *                   value:
- *                     message: Internal server error
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
  */
 
 router.patch(
