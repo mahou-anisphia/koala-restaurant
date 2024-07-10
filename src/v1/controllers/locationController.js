@@ -13,9 +13,15 @@ class LocationController {
 
   static async CreateLocation(req, res) {
     try {
-      const { Address, City, State, ZipCode, Country } = req.body;
+      const {
+        address: Address,
+        city: City,
+        state: State,
+        zipCode: ZipCode,
+        country: Country,
+      } = req.body;
       if (!Address || !City || !State || !ZipCode || !Country) {
-        return res.status(400).json({ message: "All fields are required" });
+        return res.status(400).json({ message: "Missing input fields" });
       }
 
       const newLocationId = await Location.CreateLocation({
@@ -50,9 +56,7 @@ class LocationController {
       return res.status(200).json(location);
     } catch (error) {
       console.error("Error in get location by ID:", error);
-      return res
-        .status(500)
-        .json({ message: "Failed to get location details" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -113,9 +117,7 @@ class LocationController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error Search Occured", error);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while searching for user." });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 }
