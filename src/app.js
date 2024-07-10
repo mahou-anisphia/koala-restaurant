@@ -83,11 +83,11 @@ app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
 app.use(
-  "/api",
+  "/api/docs",
   express.static(path.join(__dirname, "node_modules/swagger-ui-dist"))
 );
 app.use(
-  "/api/",
+  "/api/docs",
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
     customCss:
