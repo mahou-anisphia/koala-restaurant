@@ -42,13 +42,13 @@ class OwnerController {
           .status(201)
           .json({ message: "User created successfully", userID: result });
       } catch (error) {
+        if (error.code === ER_DUP_ENTRY) {
+          return res.status(409).json({ error: "Duplicate username error" });
+        }
         console.error("Error creating user:", error);
         return res.status(500).json({ error: "Internal server error" });
       }
     } catch (error) {
-      if (error.code === ER_DUP_ENTRY) {
-        return res.status(409).json({ error: "Duplicate username error" });
-      }
       console.error("Error in CreateUser", error);
       return res.status(500).json({ error: "Internal server error" });
     }
