@@ -79,19 +79,13 @@ class LocationController {
       if (!updateLocation) {
         return res.status(404).json({ message: "Location not found" });
       }
-      const updatedAddress = Address || updateLocation.Address;
-      const updatedCity = City || updateLocation.City;
-      const updatedState = State || updateLocation.State;
-      const updatedZipCode = ZipCode || updateLocation.ZipCode;
-      const updatedCountry = Country || updateLocation.Country;
+      updateLocation.Address = Address || updateLocation.Address;
+      updateLocation.City = City || updateLocation.City;
+      updateLocation.State = State || updateLocation.State;
+      updateLocation.ZipCode = ZipCode || updateLocation.ZipCode;
+      updateLocation.Country = Country || updateLocation.Country;
 
-      const updated = await Location.UpdateLocation(locationId, {
-        updatedAddress,
-        updatedCity,
-        updatedState,
-        updatedZipCode,
-        updatedCountry,
-      });
+      const updated = await Location.UpdateLocation(locationId, updateLocation);
 
       if (!updated) {
         return res.status(400).json({ message: "Nothing to update" });

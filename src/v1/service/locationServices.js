@@ -68,8 +68,7 @@ class Location {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
-        const { Address, City, State, ZipCode, Country, ModificationDate } =
-          locationData;
+        const { Address, City, State, ZipCode, Country } = locationData;
         const values = {
           Address,
           City,
