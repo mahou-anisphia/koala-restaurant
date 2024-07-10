@@ -10,21 +10,23 @@ class DishController {
   // Function to add a new dish to the database
 
   static async addDish(req, res) {
+    const {
+      name: Name,
+      description: Description,
+      price: Price,
+      preparationTime: PreparationTime,
+      categoryID: CategoryID,
+    } = req.body;
     const userID = req.user.UserID;
+
     try {
+      // Check if required fields are present
+      if (!Name || !Description || !Price || !PreparationTime || !CategoryID) {
+        return res.status(400).json({ message: "Dish Missing Field!" });
+      }
+
       // Handle file upload
       upload.single("image")(req, res, async (err) => {
-        // Check if required fields are present
-        if (
-          !req.body.Name ||
-          !req.body.Description ||
-          !req.body.Price ||
-          !req.body.PreparationTime ||
-          !req.body.CategoryID
-        ) {
-          console.log(req);
-          return res.status(400).json({ message: "Dish Missing Field!" });
-        }
         if (err) {
           return res.status(400).json({ message: "Error uploading file" });
         }
@@ -32,39 +34,45 @@ class DishController {
         if (!req.file) {
           return res.status(400).json({ message: "No file uploaded" });
         }
-        const validateCategory = await Category.getCategoryByID(
-          req.body.CategoryID
-        );
-        if (!validateCategory) {
-          return res.status(400).json({ message: "Category Does Not Exist" });
+
+        try {
+          // Validate category
+          const validateCategory = await Category.getCategoryByID(CategoryID);
+          if (!validateCategory) {
+            return res.status(400).json({ message: "Category Does Not Exist" });
+          }
+
+          // Generate unique image key
+          const imageKey = `${uuidv4()}-${req.file.originalname}`;
+
+          // Upload image to S3
+          const imageLink = await S3UploadUtils.uploadImageToS3(
+            req.file,
+            imageKey
+          );
+
+          // Prepare data to save in database
+          const productData = {
+            Name,
+            Description,
+            Price,
+            PreparationTime,
+            ImageLink: imageLink,
+            CategoryID,
+            CreatedBy: userID,
+            ModifiedBy: userID,
+          };
+
+          // Save dish data in database
+          const dish = await Dish.addDish(productData);
+
+          return res
+            .status(201)
+            .json({ message: "Dish uploaded successfully", dishID: dish });
+        } catch (error) {
+          console.error("Error while adding dish:", error);
+          return res.status(500).json({ message: "Internal Server Error" });
         }
-
-        const imageKey = `${uuidv4()}-${req.file.originalname}`;
-
-        // Upload image to S3
-        const imageLink = await S3UploadUtils.uploadImageToS3(
-          req.file,
-          imageKey
-        );
-        // console.log(imageLink);
-        // Prepare data to save in database
-        const productData = {
-          Name: req.body.Name,
-          Description: req.body.Description,
-          Price: req.body.Price,
-          PreparationTime: req.body.PreparationTime,
-          ImageLink: imageLink,
-          CategoryID: req.body.CategoryID,
-          CreatedBy: userID,
-          ModifiedBy: userID,
-        };
-
-        // Save dish data in database
-        const dish = await Dish.addDish(productData);
-
-        return res
-          .status(201)
-          .json({ message: "Dish uploaded successfully", dishID: dish });
       });
     } catch (error) {
       console.error("Error in addDish:", error);
