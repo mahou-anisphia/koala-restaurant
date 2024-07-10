@@ -8,7 +8,7 @@ const router = express.Router();
  * /api/v1/user/login:
  *   post:
  *     summary: Login a user
- *     tags: [User Management]
+ *     tags: [V1 User Management]
  *     requestBody:
  *       required: true
  *       content:
@@ -76,6 +76,7 @@ router.patch(
  * /api/v1/user/view-profile:
  *   get:
  *     summary: Retrieve the user's information
+ *     tags: [V1 User Management]
  *     description: Retrieve the user's info from the DB
  *     security:
  *       - bearerAuth: []
