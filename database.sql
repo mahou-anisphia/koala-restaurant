@@ -329,3 +329,13 @@ FROM
     OrderItemDetails oid
 JOIN
     DiningTable dt ON oid.TableID = dt.TableID;
+
+DROP TABLE MenuDish;
+
+CREATE TABLE MenuDish (
+    MenuID INT,
+    DishID INT,
+    Status ENUM('Available', 'Unavailable') NOT NULL,
+    FOREIGN KEY (MenuID) REFERENCES Menu(MenuID) ON DELETE CASCADE,
+    FOREIGN KEY (DishID) REFERENCES Dish(DishID) ON DELETE CASCADE
+);

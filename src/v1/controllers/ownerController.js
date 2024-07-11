@@ -169,7 +169,7 @@ class OwnerController {
     const locationId = req.params.id;
     try {
       const userList = await User.FindByLocationID(locationId);
-      if (!userList) {
+      if (!userList || userList.length === 0) {
         return res
           .status(404)
           .json({ error: "There is no user in this location" });

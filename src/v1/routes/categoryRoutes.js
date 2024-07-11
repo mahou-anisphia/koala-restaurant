@@ -8,7 +8,7 @@ router.post(
   UserVerifyMiddleware.VerifyOwner,
   CategoryController.CreateCategory
 );
-router.put(
+router.patch(
   "/category/:id",
   UserVerifyMiddleware.VerifyOwner,
   CategoryController.ModifyCategory

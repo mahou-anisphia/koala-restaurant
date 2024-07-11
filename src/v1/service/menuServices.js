@@ -73,7 +73,7 @@ class Menu {
             if (results.length === 0) {
               resolve(null); // Menu not found
             } else {
-              resolve(results[0]); // Resolve with the Menu object
+              resolve(results); // Resolve with the Menu object
             }
           }
         );
@@ -120,7 +120,7 @@ class Menu {
             if (error) {
               return reject(error);
             }
-            resolve(result.insertId); // Resolve with the newly inserted ID
+            resolve(result.affectedRows); // Resolve with the newly inserted ID
           }
         );
       });

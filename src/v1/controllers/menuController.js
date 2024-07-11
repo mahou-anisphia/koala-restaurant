@@ -21,7 +21,7 @@ class MenuController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error while retrieving menu:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   // may not be used; as it may cause too much confusion for FE devs
@@ -47,7 +47,7 @@ class MenuController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error while retrieving menu by location ID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -62,7 +62,9 @@ class MenuController {
       const result = await Menu.GetFullMenu(menuID);
 
       if (!result) {
-        return res.status(404).json({ message: "Menu not found" });
+        return res
+          .status(404)
+          .json({ message: "Menu not found or menu with given ID is empty" });
       }
 
       return res.status(200).json(result);
@@ -176,7 +178,8 @@ class MenuController {
 
       const validate = await Menu.AddDishToMenu(menuID, dishID);
       if (!validate) {
-        return res.status(500).json({ message: "Failed adding dish to menu" });
+        console.error("Failed to add dish to menu in DB layer.");
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       return res
