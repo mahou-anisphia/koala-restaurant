@@ -203,7 +203,10 @@ class DishController {
       const s3URL = dish.ImageLink;
       const match = s3URL.match(/https:\/\/.*\.s3\.amazonaws\.com\/(.*)/);
       if (!match || !match[1]) {
-        return res.status(400).json({ message: "Invalid S3 URL" });
+        console.error(
+          "Invalid s3 URL in DB, either data is corrupted or not correctly inserted"
+        );
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       const key = match[1];
@@ -213,14 +216,15 @@ class DishController {
       if (validate) {
         return res.status(200).json({ message: "Dish deleted successfully" });
       } else {
-        return res.status(500).json({ message: "Failed to delete dish" });
+        console.error("Failed to delete dish in DB");
+        return res.status(500).json({ message: "Internal server error" });
       }
     } catch (error) {
       console.error(
         "Error in delete dish. Either Multer based error or fetching data error",
         error
       );
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -240,7 +244,7 @@ class DishController {
       return res.status(200).json(dish);
     } catch (error) {
       console.error("Error in getDishByID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -251,7 +255,7 @@ class DishController {
       return res.status(200).json(dishes);
     } catch (error) {
       console.error("Error in getAllDishes:", error);
-      return res.status(500).json({ message: "Failed to fetch dishes" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async SearchDishes(req, res) {
@@ -260,8 +264,8 @@ class DishController {
       const result = await Dish.SearchDishes(term);
       return res.status(200).json(result);
     } catch (error) {
-      console.error("Error Search Occured", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      console.error("Error in SearchDishes", error);
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async getDishesByCategoryID(req, res) {
@@ -281,7 +285,7 @@ class DishController {
       return res.status(200).json(dishes);
     } catch (error) {
       console.error("Error in getDishesByCategoryID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 }
