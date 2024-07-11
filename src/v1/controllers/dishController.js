@@ -216,7 +216,10 @@ class DishController {
         return res.status(500).json({ message: "Failed to delete dish" });
       }
     } catch (error) {
-      console.error("Error in delete dish", error);
+      console.error(
+        "Error in delete dish. Either Multer based error or fetching data error",
+        error
+      );
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
