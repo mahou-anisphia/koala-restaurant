@@ -112,7 +112,7 @@ class DishController {
         }
 
         try {
-          dish.Name = req.body.Name || dish.DishName;
+          dish.DishName = req.body.Name || dish.DishName;
           dish.Description = req.body.Description || dish.Description;
           dish.Price = req.body.Price || dish.Price;
           dish.ModifiedBy = userID;

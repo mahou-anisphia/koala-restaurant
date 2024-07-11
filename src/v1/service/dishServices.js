@@ -43,7 +43,7 @@ class Dish {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         const {
-          Name,
+          DishName: Name,
           Description,
           Price,
           PreparationTime,
