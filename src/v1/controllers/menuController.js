@@ -99,7 +99,11 @@ class MenuController {
   static async AddMenu(req, res) {
     const userID = req.user.UserID;
     try {
-      const { Name, Description, LocationID } = req.body;
+      const {
+        name: Name,
+        description: Description,
+        locationID: LocationID,
+      } = req.body;
       if (!Name || !Description || !LocationID) {
         return res.status(400).json({ message: "Menu Missing Field!" });
       }
@@ -119,7 +123,7 @@ class MenuController {
         .json({ message: "Menu added successfully", menuID: menu });
     } catch (error) {
       console.error("Error in AddMenu:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
