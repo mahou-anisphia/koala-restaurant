@@ -130,7 +130,7 @@ class DishController {
             dish.CategoryID = req.body.CategoryID;
           }
           if (!req.file) {
-            const validate = await Dish.updateDish(dishId);
+            const validate = await Dish.updateDish(dishId, dish);
             if (validate) {
               return res.status(200).json({
                 message: "Dish updated successfully",
@@ -153,7 +153,7 @@ class DishController {
             }
 
             dish.ImageLink = imageLink;
-            const validate = await Dish.updateDish(dishId);
+            const validate = await Dish.updateDish(dish);
             if (validate) {
               await S3UploadUtils.deleteObjectFromS3(match[1]);
               return res.status(200).json({
