@@ -97,13 +97,6 @@ class DishController {
   // Function to update an existing dish in the database
   static async updateDish(req, res) {
     try {
-      const {
-        name: Name,
-        description: Description,
-        price: Price,
-        preparationTime: PreparationTime,
-        categoryID: CategoryID,
-      } = req.body;
       const userID = req.user.UserID;
       const dishId = req.params.id;
       const dish = await Dish.getDishByID(dishId);
@@ -113,6 +106,15 @@ class DishController {
       }
 
       upload.single("image")(req, res, async (err) => {
+        // deconstruct after multer as it was multipart form
+
+        const {
+          name: Name,
+          description: Description,
+          price: Price,
+          preparationTime: PreparationTime,
+          categoryID: CategoryID,
+        } = req.body;
         if (err) {
           console.error("Error upload file to server:", err);
           return res.status(500).json({ message: "Internal server error" });
