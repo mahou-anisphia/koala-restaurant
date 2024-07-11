@@ -132,7 +132,7 @@ router.post(
  * /api/v1/owner/update-user/{id}:
  *   patch:
  *     summary: Update an existing user
- *     description: Update an existing user's details. Requires authorization.
+ *     description: Update an existing user's details. Requires authorization. Empty fields are acceptable, and only accept Owner, Waiter, Chef and Customer roles.
  *     tags: [V1 Owner Manage Users]
  *     security:
  *       - bearerAuth: []
@@ -830,7 +830,7 @@ router.patch(
  * /api/v1/owner/search-user/{searchQueries}:
  *   post:
  *     summary: Search for users by location, name, or login name
- *     description: Search for users based on a location, name, or login name. Only one parameter is accepted per request. Requires authorization.
+ *     description: Search for users based on a location, name, or login name. Only one parameter is accepted per request. Requires authorization. Only accept Owner, Waiter, Chef and Customer roles.
  *     tags: [V1 Owner Manage Users]
  *     security:
  *       - bearerAuth: []
