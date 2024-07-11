@@ -311,7 +311,7 @@ router.post(
  *   patch:
  *     summary: Update location details
  *     description: Updates location details identified by the provided ID if the user has the Owner role and provides a valid token.
- *     tags: [V1 Location Routes Management]s
+ *     tags: [V1 Location Routes Management]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -365,15 +365,18 @@ router.post(
  *                   type: string
  *                   example: "LocationID is required"
  *       404:
- *         description: Location not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Location not found"
+ *        description: Location or user not found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: |
+ *                    Location not found (for location)
+ *                    User does not exist (for user)
+ *
  *       401:
  *         description: Unauthorized request
  *         content:
@@ -394,16 +397,6 @@ router.post(
  *                 message:
  *                   type: string
  *                   example: "Forbidden"
- *       404:
- *         description: User does not exist (Invalid or deleted user)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "User does not exist"
  *       500:
  *         description: Internal server error
  *         content:
@@ -456,17 +449,19 @@ router.patch(
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Location ID is required"
+ *                   example: "LocationID is required"
  *       404:
- *         description: Location not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Location not found"
+ *        description: Location or user not found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: |
+ *                    Location not found (for location)
+ *                    User does not exist (for user)
  *       401:
  *         description: Unauthorized request
  *         content:
@@ -487,16 +482,6 @@ router.patch(
  *                 message:
  *                   type: string
  *                   example: "Forbidden"
- *       404:
- *         description: User does not exist (Invalid or deleted user)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "User does not exist"
  *       500:
  *         description: Internal server error
  *         content:
