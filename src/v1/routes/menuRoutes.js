@@ -10,12 +10,12 @@ router.get("/menu/:id", MenuController.GetMenuByID);
 router.get("/menu/location/:id", MenuController.GetMenuByLocation);
 
 // Route to get a detailed menu by ID
-router.get("/menu/detailed/:id", MenuController.GetDetailedMenu);
+router.get("/menu/dishes/:id", MenuController.GetDishesFromMenu);
 
 // Route to get a detailed menu by location ID
 router.get(
-  "/menu/detailed/location/:id",
-  MenuController.GetDetailedMenuByLocation
+  "/menu/dishes/location/:id",
+  MenuController.GetDishesFromMenuByLocation
 );
 
 // Route to add a new menu (requires user verification)

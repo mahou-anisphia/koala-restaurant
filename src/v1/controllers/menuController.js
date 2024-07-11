@@ -51,7 +51,7 @@ class MenuController {
     }
   }
 
-  static async GetDetailedMenu(req, res) {
+  static async GetDishesFromMenu(req, res) {
     try {
       const menuID = req.params.id;
 
@@ -73,7 +73,7 @@ class MenuController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
-  static async GetDetailedMenuByLocation(req, res) {
+  static async GetDishesFromMenuByLocation(req, res) {
     try {
       const locationId = req.params.id;
 
