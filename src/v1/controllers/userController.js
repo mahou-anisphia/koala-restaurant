@@ -7,9 +7,13 @@ const ER_DUP_ENTRY = "ER_DUP_ENTRY";
 
 class UserController {
   static generateToken(user) {
-    return jwt.sign({ userID: user.UserID }, process.env.JWT_TOKEN, {
-      expiresIn: "3d",
-    });
+    return jwt.sign(
+      { userID: user.UserID, username: user.Login, fullName: user.Name },
+      process.env.JWT_TOKEN,
+      {
+        expiresIn: "3d",
+      }
+    );
   }
 
   static async comparePassword(password, hashedPassword) {
