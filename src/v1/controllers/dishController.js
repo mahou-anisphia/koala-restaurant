@@ -97,6 +97,13 @@ class DishController {
   // Function to update an existing dish in the database
   static async updateDish(req, res) {
     try {
+      const {
+        name: Name,
+        description: Description,
+        price: Price,
+        preparationTime: PreparationTime,
+        categoryID: CategoryID,
+      } = req.body;
       const userID = req.user.UserID;
       const dishId = req.params.id;
       const dish = await Dish.getDishByID(dishId);
@@ -107,27 +114,24 @@ class DishController {
 
       upload.single("image")(req, res, async (err) => {
         if (err) {
-          console.error("Error logging in:", err);
-          return res.status(500).json({ message: "Image upload failed" });
+          console.error("Error upload file to server:", err);
+          return res.status(500).json({ message: "Internal server error" });
         }
 
         try {
-          dish.DishName = req.body.Name || dish.DishName;
-          dish.Description = req.body.Description || dish.Description;
-          dish.Price = req.body.Price || dish.Price;
+          dish.DishName = Name || dish.DishName;
+          dish.Description = Description || dish.Description;
+          dish.Price = Price || dish.Price;
           dish.ModifiedBy = userID;
-          dish.PreparationTime =
-            req.body.PreparationTime || dish.PreparationTime;
-          if (req.body.CategoryID) {
-            const validateCategory = await Category.getCategoryByID(
-              req.body.CategoryID
-            );
+          dish.PreparationTime = PreparationTime || dish.PreparationTime;
+          if (CategoryID) {
+            const validateCategory = await Category.getCategoryByID(CategoryID);
             if (!validateCategory) {
               return res
                 .status(400)
                 .json({ message: "Category Does Not Exist" });
             }
-            dish.CategoryID = req.body.CategoryID;
+            dish.CategoryID = CategoryID;
           }
           if (!req.file) {
             const validate = await Dish.updateDish(dishId, dish);
@@ -137,7 +141,8 @@ class DishController {
                 result: validate,
               });
             } else {
-              return res.status(500).json({ message: "Dish update failed" });
+              console.error("Error during update dish in DB");
+              return res.status(500).json({ message: "Internal server error" });
             }
           } else {
             const imageKey = `${uuidv4()}-${req.file.originalname}`;
@@ -149,29 +154,34 @@ class DishController {
             const s3URL = dish.ImageLink;
             const match = s3URL.match(/https:\/\/.*\.s3\.amazonaws\.com\/(.*)/);
             if (!match || !match[1]) {
-              return res.status(400).json({ message: "Invalid S3 URL" });
+              console.error(
+                "Error during matching S3 object, either object is deleted or URL in DB is broken"
+              );
+              return res.status(500).json({ message: "Internal server error" });
             }
-
+            // assign new S3 URL after fetching the old one to another var.
             dish.ImageLink = imageLink;
-            const validate = await Dish.updateDish(dish);
+            const validate = await Dish.updateDish(dishId, dish);
             if (validate) {
+              // Only delete image after success upload to avoid dish with no image associated
               await S3UploadUtils.deleteObjectFromS3(match[1]);
               return res.status(200).json({
                 message: "Dish updated successfully",
                 result: validate,
               });
             } else {
-              return res.status(500).json({ message: "Dish update failed" });
+              console.error("Error during update dish in DB");
+              return res.status(500).json({ message: "Internal server error" });
             }
           }
         } catch (updateErr) {
           console.error("Error updateDish:", updateErr);
-          return res.status(500).json({ message: "Dish update failed" });
+          return res.status(500).json({ message: "Internal server error" });
         }
       });
     } catch (err) {
       console.error("Error update dish:", err);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
