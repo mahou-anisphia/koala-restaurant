@@ -175,7 +175,12 @@ class MenuController {
           .status(400)
           .json({ message: "Dish to be added does not exist" });
       }
-
+      const validateMenu = await Menu.GetAbstractMenu(menuID);
+      if (!validateMenu) {
+        return res
+          .status(404)
+          .json({ message: "The menu with given id does not exist" });
+      }
       const validate = await Menu.AddDishToMenu(menuID, dishID);
       if (!validate) {
         console.error("Failed to add dish to menu in DB layer.");
