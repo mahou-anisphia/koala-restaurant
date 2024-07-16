@@ -162,7 +162,7 @@ class MenuController {
 
   static async AddDishToMenu(req, res) {
     const { id: menuID } = req.params;
-    const { DishID: dishID } = req.body;
+    const { dishID } = req.body;
 
     try {
       if (!menuID) {
