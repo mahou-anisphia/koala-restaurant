@@ -132,7 +132,7 @@ class MenuController {
   static async UpdateMenuDetails(req, res) {
     const { UserID: userID } = req.user;
     const { id: menuID } = req.params;
-    const { Name, Description } = req.body;
+    const { name: Name, description: Description } = req.body;
 
     try {
       const menu = await Menu.GetAbstractMenu(menuID);
@@ -144,7 +144,7 @@ class MenuController {
       menu.Name = Name || menu.Name;
       menu.Description = Description || menu.Description;
 
-      const updateResult = await Menu.UpdateMenuDetail(menu, userID);
+      const updateResult = await Menu.UpdateMenuDetails(menu, userID);
 
       if (updateResult) {
         return res.status(200).json({
