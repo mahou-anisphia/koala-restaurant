@@ -225,7 +225,7 @@ class MenuController {
 
   static async DeleteDishFromMenu(req, res) {
     const { id: menuID } = req.params;
-    const { DishID: dishID } = req.body;
+    const { dishID } = req.body;
 
     try {
       if (!menuID || !dishID) {
