@@ -70,7 +70,7 @@ class MenuController {
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error while retrieving menu:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   // static async GetDishesFromMenuByLocation(req, res) {
@@ -272,13 +272,16 @@ class MenuController {
       await Menu.ClearDishes(menuID);
       const validate = await Menu.DeleteMenu(menuID);
       if (!validate) {
-        return res.status(500).json({ message: "Error while deleting menu" });
+        console.error(
+          "error during interracting with DB, the data may not exist"
+        );
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       return res.status(200).json({ message: "Menu deleted successfully" });
     } catch (error) {
       console.error("Error in DeleteMenu:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 }
