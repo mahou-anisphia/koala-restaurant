@@ -175,11 +175,18 @@ class MenuController {
           .status(400)
           .json({ message: "Dish to be added does not exist" });
       }
-      const validateMenu = await Menu.GetAbstractMenu(menuID);
-      if (!validateMenu) {
+      const validateMenu = await Menu.GetFullMenu(menuID);
+
+      if (!validateMenu || validateMenu.length === 0) {
         return res
           .status(404)
-          .json({ message: "The menu with given id does not exist" });
+          .json({ message: "The menu with the given ID does not exist" });
+      }
+
+      if (validateMenu.some((item) => item.DishID == dishID)) {
+        return res
+          .status(400)
+          .json({ message: "Dish already exists in the given menu" });
       }
       const validate = await Menu.AddDishToMenu(menuID, dishID);
       if (!validate) {
