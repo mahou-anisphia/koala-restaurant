@@ -21,7 +21,6 @@ router.get("/menu/dishes/:id", MenuController.GetDishesFromMenu);
 // Route to add a new menu (requires user verification)
 router.post("/menu", UserVerifyMiddleware.VerifyOwner, MenuController.AddMenu);
 
-//test needed
 // Route to update menu details (requires user verification)
 router.patch(
   "/menu/:id",

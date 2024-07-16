@@ -176,8 +176,8 @@ class MenuController {
           .json({ message: "Dish to be added does not exist" });
       }
       const validateMenu = await Menu.GetFullMenu(menuID);
-
-      if (!validateMenu || validateMenu.length === 0) {
+      const menuToAdd = await Menu.GetAbstractMenu(menuID);
+      if (!menuToAdd || menuToAdd.length === 0) {
         return res
           .status(404)
           .json({ message: "The menu with the given ID does not exist" });
