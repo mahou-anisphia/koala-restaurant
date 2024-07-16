@@ -177,7 +177,7 @@ class MenuController {
       }
       const validateMenu = await Menu.GetFullMenu(menuID);
       const menuToAdd = await Menu.GetAbstractMenu(menuID);
-      if (!menuToAdd || menuToAdd.length === 0) {
+      if (!menuToAdd) {
         return res
           .status(404)
           .json({ message: "The menu with the given ID does not exist" });
