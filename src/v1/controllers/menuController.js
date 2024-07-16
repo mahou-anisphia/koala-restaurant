@@ -73,31 +73,31 @@ class MenuController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
-  static async GetDishesFromMenuByLocation(req, res) {
-    try {
-      const locationId = req.params.id;
+  // static async GetDishesFromMenuByLocation(req, res) {
+  //   try {
+  //     const locationId = req.params.id;
 
-      if (!locationId) {
-        return res.status(400).json({ message: "Location ID is required" });
-      }
-      const locationVerify = await Location.FindByID(locationId);
-      if (!locationVerify) {
-        return res.status(404).json({ message: "Location does not exist" });
-      }
+  //     if (!locationId) {
+  //       return res.status(400).json({ message: "Location ID is required" });
+  //     }
+  //     const locationVerify = await Location.FindByID(locationId);
+  //     if (!locationVerify) {
+  //       return res.status(404).json({ message: "Location does not exist" });
+  //     }
 
-      const result = await Menu.GetFullMenusByLocation(locationId);
-      if (!result || result.length === 0) {
-        return res.status(404).json({
-          message: "No menu available at this location",
-          location: locationVerify,
-        });
-      }
-      return res.status(200).json(result);
-    } catch (error) {
-      console.error("Error while retrieving menu by location ID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-  }
+  //     const result = await Menu.GetFullMenusByLocation(locationId);
+  //     if (!result || result.length === 0) {
+  //       return res.status(404).json({
+  //         message: "No menu available at this location",
+  //         location: locationVerify,
+  //       });
+  //     }
+  //     return res.status(200).json(result);
+  //   } catch (error) {
+  //     console.error("Error while retrieving menu by location ID:", error);
+  //     return res.status(500).json({ message: "Internal Server Error" });
+  //   }
+  // }
   static async AddMenu(req, res) {
     const userID = req.user.UserID;
     try {

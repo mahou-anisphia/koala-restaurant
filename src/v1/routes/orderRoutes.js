@@ -34,14 +34,14 @@ router.delete(
   OrderController.deleteOrder
 );
 
-// Delete all orders in a timeframe (assuming only one result)
+// Delete all orders in a timeframe
 router.delete(
   "/orders/timeframe",
   UserVerifyMiddleware.VerifyWaiter,
   OrderController.deleteOrdersInTimeframe
 );
 
-// Select an order in a location (assuming only one result)
+// Select an order in a location
 router.get(
   "/orders/location/:id",
   UserVerifyMiddleware.VerifyWaiterAndChef,

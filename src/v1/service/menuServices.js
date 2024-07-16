@@ -81,25 +81,25 @@ class Menu {
     });
   }
 
-  static async GetFullMenusByLocation(id) {
-    return new Promise((resolve, reject) => {
-      pool.getConnection((err, connection) => {
-        if (err) return reject(err);
+  // static async GetFullMenusByLocation(id) {
+  //   return new Promise((resolve, reject) => {
+  //     pool.getConnection((err, connection) => {
+  //       if (err) return reject(err);
 
-        connection.query(
-          `SELECT * FROM MenuDishDetails WHERE LocationID = ?`,
-          [id],
-          (error, results) => {
-            connection.release();
-            if (error) {
-              return reject(error);
-            }
-            resolve(results); // Resolve with array of Menu objects
-          }
-        );
-      });
-    });
-  }
+  //       connection.query(
+  //         `SELECT * FROM MenuDishDetails WHERE LocationID = ?`,
+  //         [id],
+  //         (error, results) => {
+  //           connection.release();
+  //           if (error) {
+  //             return reject(error);
+  //           }
+  //           resolve(results); // Resolve with array of Menu objects
+  //         }
+  //       );
+  //     });
+  //   });
+  // }
 
   static async AddDishToMenu(menuID, dishID) {
     return new Promise((resolve, reject) => {
