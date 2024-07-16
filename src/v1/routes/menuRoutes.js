@@ -21,9 +21,9 @@ router.get("/menu/dishes/:id", MenuController.GetDishesFromMenu);
 // Route to add a new menu (requires user verification)
 router.post("/menu", UserVerifyMiddleware.VerifyOwner, MenuController.AddMenu);
 
-//we stop here
+//test needed
 // Route to update menu details (requires user verification)
-router.put(
+router.patch(
   "/menu/:id",
   UserVerifyMiddleware.VerifyWaiter,
   MenuController.UpdateMenuDetails
@@ -36,6 +36,7 @@ router.post(
   MenuController.AddDishToMenu
 );
 
+//test needed
 // Route to modify the status of a dish on a menu (requires user verification)
 router.put(
   "/menu/dish/status",
