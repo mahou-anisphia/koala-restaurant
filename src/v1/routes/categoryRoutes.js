@@ -15,7 +15,7 @@ router.patch(
 );
 
 router.get("/category/:id", CategoryController.ViewByID);
-router.get("/category/:id/dishes", DishController.ViewByCategoryID);
+// router.get("/category/:id/dishes", DishController.ViewByCategoryID);
 // View all category
 router.get("/category", CategoryController.ViewCategory);
 router.delete(

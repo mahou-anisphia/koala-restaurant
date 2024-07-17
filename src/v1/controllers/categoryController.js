@@ -121,25 +121,6 @@ class CategoryController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
-  static async ViewDishesByCategoryID(req, res) {
-    const { id: categoryID } = req.params;
-    if (!categoryID) {
-      return res.status(400).json({ message: "CategoryID is required" });
-    }
-    try {
-      const dishes = await Dish.getDishesByCategoryID(categoryID);
-      if (dishes && dishes.length > 0) {
-        return res.status(200).json({ dishes });
-      } else {
-        return res
-          .status(404)
-          .json({ message: "No dishes found for this category" });
-      }
-    } catch (error) {
-      console.error("Error in ViewByCategoryID:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  }
 }
 
 module.exports = CategoryController;
