@@ -3,7 +3,7 @@ const Dish = require("../service/dishServices");
 
 class CategoryController {
   static async CreateCategory(req, res) {
-    const { Name, Description } = req.body;
+    const { name: Name, description: Description } = req.body;
     const userID = req.user.UserID;
 
     if (!Name || !Description) {
@@ -24,13 +24,13 @@ class CategoryController {
       });
     } catch (error) {
       console.error("Error in CreateCategory:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
   static async ModifyCategory(req, res) {
     const { id: categoryID } = req.params;
-    const { Name, Description } = req.body;
+    const { name: Name, description: Description } = req.body;
     const userID = req.user.UserID;
 
     if (!categoryID) {
@@ -38,7 +38,7 @@ class CategoryController {
     }
     const category = await Category.getCategoryByID(categoryID);
     if (!category) {
-      return res.status(400).json({ message: "Category does not exists" });
+      return res.status(404).json({ message: "Category does not exists" });
     }
     category.Name = Name || category.Name;
     category.Description = Description || category.Description;
@@ -56,11 +56,12 @@ class CategoryController {
           .status(200)
           .json({ message: "Category updated successfully" });
       } else {
-        return res.status(404).json({ message: "Category not found" });
+        console.error("Error while update Category - interract with DB");
+        return res.status(500).json({ message: "Internal server error" });
       }
     } catch (error) {
       console.error("Error in ModifyCategory:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -70,7 +71,7 @@ class CategoryController {
       return res.status(200).json({ categories });
     } catch (error) {
       console.error("Error in ViewCategory:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -88,7 +89,7 @@ class CategoryController {
       }
     } catch (error) {
       console.error("Error in ViewByID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -117,7 +118,26 @@ class CategoryController {
       }
     } catch (error) {
       console.error("Error in DeleteCategory:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+  static async ViewDishesByCategoryID(req, res) {
+    const { id: categoryID } = req.params;
+    if (!categoryID) {
+      return res.status(400).json({ message: "CategoryID is required" });
+    }
+    try {
+      const dishes = await Dish.getDishesByCategoryID(categoryID);
+      if (dishes && dishes.length > 0) {
+        return res.status(200).json({ dishes });
+      } else {
+        return res
+          .status(404)
+          .json({ message: "No dishes found for this category" });
+      }
+    } catch (error) {
+      console.error("Error in ViewByCategoryID:", error);
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 }

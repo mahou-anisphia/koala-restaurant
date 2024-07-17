@@ -136,7 +136,9 @@ class MenuController {
 
     try {
       const menu = await Menu.GetAbstractMenu(menuID);
-
+      if (!menuID) {
+        return res.status(400).json({ message: "menuID is required" });
+      }
       if (!menu) {
         return res.status(404).json({ message: "Menu not found" });
       }
@@ -152,11 +154,12 @@ class MenuController {
           result: updateResult,
         });
       } else {
-        return res.status(500).json({ message: "Menu update failed" });
+        console.error("Error during interract with DB while update menu");
+        return res.status(500).json({ message: "Internal server error" });
       }
     } catch (error) {
       console.error("Error in UpdateMenuDetails:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -223,9 +226,8 @@ class MenuController {
         status
       );
       if (!validate) {
-        return res
-          .status(500)
-          .json({ message: "Failed to update dish status" });
+        console.error("Failed in DB while update dish status");
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       return res
@@ -233,7 +235,7 @@ class MenuController {
         .json({ message: "Dish status updated successfully" });
     } catch (error) {
       console.error("Error in ModifyDishStatus:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -248,9 +250,10 @@ class MenuController {
 
       const validate = await Menu.DeleteDishFromMenu(menuID, dishID);
       if (!validate) {
-        return res
-          .status(500)
-          .json({ message: "Error while deleting dish from menu" });
+        console.error(
+          "Error during interract with DB while delete dish from menu"
+        );
+        return res.status(500).json({ message: "Internal server error" });
       }
 
       return res
@@ -258,7 +261,7 @@ class MenuController {
         .json({ message: "Dish removed from menu successfully" });
     } catch (error) {
       console.error("Error in DeleteDishFromMenu:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async DeleteMenu(req, res) {
