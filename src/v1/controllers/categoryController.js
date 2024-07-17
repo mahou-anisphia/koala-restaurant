@@ -36,13 +36,14 @@ class CategoryController {
     if (!categoryID) {
       return res.status(400).json({ message: "CategoryID is required" });
     }
-    const category = await Category.getCategoryByID(categoryID);
-    if (!category) {
-      return res.status(404).json({ message: "Category does not exists" });
-    }
-    category.Name = Name || category.Name;
-    category.Description = Description || category.Description;
+
     try {
+      const category = await Category.getCategoryByID(categoryID);
+      if (!category) {
+        return res.status(404).json({ message: "Category does not exists" });
+      }
+      category.Name = Name || category.Name;
+      category.Description = Description || category.Description;
       const success = await Category.updateCategory(
         categoryID,
         category,
