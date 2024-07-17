@@ -1,0 +1,39 @@
+_id: req_97ca7631e754454f98b4581e2ea1230e
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720516970356
+created: 1720426888801
+url: https://koala-restaurant.vercel.app/api/v1/user/update
+name: userModifyThemself
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Gustavo Fring",
+    	"contactDetails": "Phone",
+    	"login": "Gustavo",
+    	"password": "ChickenMan",
+    	"locationID": 1
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_6dbe4609979e40aaa7f3662167eaf708
+  - id: pair_a97a62c5361e473f9ce7f54bb0129195
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDQyMzY4NSwiZXhwIjoxNzIwNjgyODg1fQ.LFdAOMRMqW3iP1pDnNZ0GXTd8eZIz10ebVwVfjrNxVU
+    description: ""
+authentication: {}
+metaSortKey: -1720426888801
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

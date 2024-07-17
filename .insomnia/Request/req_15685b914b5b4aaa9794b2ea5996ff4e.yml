@@ -1,0 +1,40 @@
+_id: req_15685b914b5b4aaa9794b2ea5996ff4e
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720625266100
+created: 1720624573087
+url: https://koala-restaurant.vercel.app/api/v1/location/4
+name: updateLocation
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |
+    {
+      "address": "1600 Pennsylvania Avenue NW",
+      "city": "Albuquerque",
+      "state": "New Mexico",
+      "zipCode": "87101",
+      "country": "USA"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_c4ed2317364f4c449ee57661ffa65d3c
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_e0d5cf7e1ada42baaaeee71924383fac
+  - id: pair_86b68a44e2904770be4208822f563766
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDYxNzYyNywiZXhwIjoxNzIwODc2ODI3fQ.gzTvUhQljti5b3-SWQ3pTxHYF_n89Xs4B1gy3FwGJZU
+    description: ""
+authentication: {}
+metaSortKey: -1720624573087
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

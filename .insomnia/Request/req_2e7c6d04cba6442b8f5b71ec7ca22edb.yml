@@ -1,0 +1,36 @@
+_id: req_2e7c6d04cba6442b8f5b71ec7ca22edb
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1721202182600
+created: 1721201375813
+url: https://koala-restaurant.vercel.app/api/v1/category/10
+name: updateCategory
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Los Pollos's Chicken",
+    	"description": "Los Pollos Hermanos's chicken"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_719dcb8a42734640908751f0d996f9b5
+  - id: pair_cfb397dc2d694ebd9ac34319ab18d740
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoiR3VzdGF2byIsImZ1bGxOYW1lIjoiR3VzdGF2byBGcmluZyIsImlhdCI6MTcyMTIwMTUyMiwiZXhwIjoxNzIxNDYwNzIyfQ.zcZtyBbp8BfthncFbuAYeNtYT0L7Gr86nUiEnQifMRQ
+    description: ""
+authentication: {}
+metaSortKey: -1721201375813
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

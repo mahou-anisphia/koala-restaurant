@@ -1,0 +1,39 @@
+_id: req_9f2baa303dfc454585fc3705f400ded1
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720618090500
+created: 1720516629681
+url: https://koala-restaurant.vercel.app/api/v1/owner/create-user
+name: createUser
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Jesse Pinkman",
+    	"role": "Waiter",
+    	"login": "CapnCook",
+    	"password": "yo_bitch",
+    	"locationID": 2
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_a3916ce359f340af9a23ee4bb9ca216d
+  - id: pair_7fbd15a382ff4de88b21b4471fe8e254
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDUxNjYxMSwiZXhwIjoxNzIwNzc1ODExfQ.Yqf37p_SBkZiO4mR4WcdT0OsMfqV6LjMr_kc4JsusS0
+    description: ""
+authentication: {}
+metaSortKey: -1720516629681
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,59 @@
+_id: req_9da7194c159442048bbff7745fd8f885
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720675531489
+created: 1720672110348
+url: https://koala-restaurant.vercel.app/api/v1/dishes/3
+name: updateDish
+description: ""
+method: PATCH
+body:
+  mimeType: multipart/form-data
+  params:
+    - id: pair_e4fe9f84091f4362bdfcc5351233904b
+      name: image
+      value: ""
+      description: ""
+      type: file
+      fileName: C:\Users\Thanh\Pictures\ishigami.jpg
+      disabled: true
+    - id: pair_afdb27dc43914299b11b00b34d51bc0a
+      name: name
+      value: newName
+      description: ""
+    - id: pair_bf550c46cafa41b5bfd047e925df10e5
+      name: description
+      value: newDesc
+      description: ""
+    - id: pair_004ae2d58c7b4ebebfc89fe299562b9e
+      name: price
+      value: "200"
+      description: ""
+    - id: pair_95aaec549be74614b3575511f690999b
+      name: preparationTime
+      value: "200"
+      description: ""
+    - id: pair_7af719bcff9549609fdd2f7e8d1cf709
+      name: categoryID
+      value: "3"
+      description: ""
+parameters: []
+headers:
+  - name: Content-Type
+    value: multipart/form-data
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_48be572766a841e892ba7dbcd03ae903
+  - id: pair_6b40c71bcd6b4cd59b7f49ce38475237
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDYxNzYyNywiZXhwIjoxNzIwODc2ODI3fQ.gzTvUhQljti5b3-SWQ3pTxHYF_n89Xs4B1gy3FwGJZU
+    description: ""
+authentication: {}
+metaSortKey: -1720672110348
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

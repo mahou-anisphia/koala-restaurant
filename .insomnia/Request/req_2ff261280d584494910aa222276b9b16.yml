@@ -1,0 +1,59 @@
+_id: req_2ff261280d584494910aa222276b9b16
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720632453690
+created: 1720631870472
+url: https://koala-restaurant.vercel.app/api/v1/dishes
+name: createDish
+description: ""
+method: POST
+body:
+  mimeType: multipart/form-data
+  params:
+    - id: pair_e854bc672c1d47f7b067e20ff37f7869
+      name: name
+      value: hehe
+      description: ""
+    - id: pair_a367bb58d9904ff9946f2d08e3a013e9
+      name: description
+      value: hihi
+      description: ""
+    - id: pair_95df0cdb408743efa2caaee476d0ec9e
+      name: price
+      value: "10"
+      description: ""
+    - id: pair_a102faf2d5b34ace93b5d970050de100
+      name: preparationTime
+      value: "10"
+      description: ""
+    - id: pair_f8ad9b1619554cc391a4da8f68773562
+      name: categoryID
+      value: "1"
+      description: ""
+    - id: pair_07f50848c9934ad89fdf4524aefa0b44
+      name: image
+      value: ""
+      description: ""
+      type: file
+      fileName: C:\Users\Thanh\Pictures\Heisenberg.jpg
+parameters: []
+headers:
+  - name: Content-Type
+    value: multipart/form-data
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_b5c7347e606d4fa1ae258713cc68679f
+  - id: pair_a540d9de1a0040859d45e31045d5604d
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDYxNzYyNywiZXhwIjoxNzIwODc2ODI3fQ.gzTvUhQljti5b3-SWQ3pTxHYF_n89Xs4B1gy3FwGJZU
+    description: ""
+    disabled: false
+authentication: {}
+metaSortKey: -1720631870472
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

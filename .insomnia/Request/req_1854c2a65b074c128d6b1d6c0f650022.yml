@@ -1,0 +1,31 @@
+_id: req_1854c2a65b074c128d6b1d6c0f650022
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720617636952
+created: 1720422339627
+url: https://koala-restaurant.vercel.app/api/v1/user/login
+name: userLogin
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username": "Gustavo",
+    	"password": "ChickenMan"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1720422339627
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

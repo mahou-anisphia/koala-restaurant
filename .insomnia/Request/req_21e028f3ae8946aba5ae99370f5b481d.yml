@@ -1,0 +1,23 @@
+_id: req_21e028f3ae8946aba5ae99370f5b481d
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720610586340
+created: 1720610329377
+url: https://koala-restaurant.vercel.app/api/v1/location/search/arroy
+name: searchLocation
+description: ""
+method: POST
+body: {}
+parameters: []
+headers:
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1720610329377
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

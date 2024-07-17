@@ -1,0 +1,35 @@
+_id: req_cd1a894894834cbe9e241b3ce9043833
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720517788794
+created: 1720517782512
+url: https://koala-restaurant.vercel.app/api/v1/owner/update-user/7
+name: ownerUpdateOthers409
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Tiger D. Dragon", 
+    	"contactDetails": "email",
+    	"role": "Owner", 
+    	"login": "Ego", 
+    	"locationID": 2
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDUxNjYxMSwiZXhwIjoxNzIwNzc1ODExfQ.Yqf37p_SBkZiO4mR4WcdT0OsMfqV6LjMr_kc4JsusS0
+    id: pair_6d6d07e839d949e692ef9206393c6a95
+authentication: {}
+metaSortKey: -1720516891400
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,28 @@
+_id: req_7f315dbca7954e2ea6f0a56b31cdf518
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1721116910474
+created: 1721116834765
+url: https://koala-restaurant.vercel.app/api/v1/menu/2
+name: deleteMenu(DeleteAllDishAssociated)
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers:
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_ed43400b3cf1491dbafaecefb53f6518
+  - id: pair_7f9afe17d88242618fe8f220e8635059
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoiR3VzdGF2byIsImZ1bGxOYW1lIjoiR3VzdGF2byBGcmluZyIsImlhdCI6MTcyMTExNjY0OCwiZXhwIjoxNzIxMzc1ODQ4fQ.A90nTFAnFejdo4a8UtIw2YDklCHDARSOGnAp97BsX2E
+    description: ""
+authentication: {}
+metaSortKey: -1721116834765
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

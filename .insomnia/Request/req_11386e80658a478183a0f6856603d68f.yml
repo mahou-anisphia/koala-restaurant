@@ -1,0 +1,34 @@
+_id: req_11386e80658a478183a0f6856603d68f
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720423245360
+created: 1720422934675
+url: https://koala-restaurant.vercel.app/api/v1/user/change-password
+name: changePassword
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: '{"newPassword": "BlueCrystal"}'
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_1503855469f8454b8f6b30abd4963195
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_8c82f61e836d48d8b72fbb00b222552e
+  - id: pair_23a09c91feda44e8832c0612782c2e01
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTcyMDQyMzA0MywiZXhwIjoxNzIwNjgyMjQzfQ.g9f_pDUBsjrK3KanwPHbZN1ixzXwSpx4sH-4ZQppFcM
+    description: ""
+    disabled: false
+authentication: {}
+metaSortKey: -1720422934675
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

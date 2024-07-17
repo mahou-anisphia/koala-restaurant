@@ -1,0 +1,37 @@
+_id: req_af356a76e41745dcb326af38c226b2ff
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1721147934385
+created: 1721123727229
+url: https://koala-restaurant.vercel.app/api/v1/menu/1
+name: updateMenuDetails
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Main menu - edited",
+    	"description": "Main menu for all main dishes - edited"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_7678ff0b6c9c4e8280c36d37233f7e08
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_b54c4d79cd68464aa37e14df7877ce8b
+  - id: pair_1cf819b90d2f4425be940aee0977f1d3
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoiR3VzdGF2byIsImZ1bGxOYW1lIjoiR3VzdGF2byBGcmluZyIsImlhdCI6MTcyMTExNjY0OCwiZXhwIjoxNzIxMzc1ODQ4fQ.A90nTFAnFejdo4a8UtIw2YDklCHDARSOGnAp97BsX2E
+    description: ""
+authentication: {}
+metaSortKey: -1721123727229
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

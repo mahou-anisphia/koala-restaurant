@@ -1,0 +1,28 @@
+_id: req_c0943727a61d490192f7bd22d915843c
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720516603159
+created: 1720423669525
+url: https://koala-restaurant.vercel.app/api/v1/user/view-profile
+name: userViewProfile
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_46dd5297105f4b84a954a76ad3195c7c
+  - id: pair_6616ca0da01841558de042ec556dc5af
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDQyMzY4NSwiZXhwIjoxNzIwNjgyODg1fQ.LFdAOMRMqW3iP1pDnNZ0GXTd8eZIz10ebVwVfjrNxVU
+    description: ""
+authentication: {}
+metaSortKey: -1720423669525
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

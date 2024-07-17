@@ -1,0 +1,37 @@
+_id: req_2071a6c44ffc4db0985a5f3c46ebb6ab
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720520569676
+created: 1720520496293
+url: https://koala-restaurant.vercel.app/api/v1/owner/assign-role/1
+name: updateRole
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"role": "Chef"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_ddff390fffa54de9be826f583fcd0ccd
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_aca94645ede44c1f89c4604351d7044c
+  - id: pair_175c0f2d196e4dd290a260b9066519db
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDUxNjYxMSwiZXhwIjoxNzIwNzc1ODExfQ.Yqf37p_SBkZiO4mR4WcdT0OsMfqV6LjMr_kc4JsusS0
+    description: ""
+    disabled: false
+authentication: {}
+metaSortKey: -1720520496293
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

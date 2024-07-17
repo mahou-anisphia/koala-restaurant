@@ -1,0 +1,38 @@
+_id: req_a75fb47a1ca74ee1a88e06c3ead1fd40
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1721124560797
+created: 1721124484701
+url: https://koala-restaurant.vercel.app/api/v1/menu/dish/status
+name: modifyDishStatus
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"dishID": 2,
+    	"menuID": 1,
+    	"status": "Unavailable"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_f6da5a2b0add4c6eb7bb613b6d03c99e
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_60775b732315453b83fa6e51e18f7d6f
+  - id: pair_42e23e43d9ad41ddbcd50109d3c75bdc
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoiR3VzdGF2byIsImZ1bGxOYW1lIjoiR3VzdGF2byBGcmluZyIsImlhdCI6MTcyMTExNjY0OCwiZXhwIjoxNzIxMzc1ODQ4fQ.A90nTFAnFejdo4a8UtIw2YDklCHDARSOGnAp97BsX2E
+    description: ""
+authentication: {}
+metaSortKey: -1721124484701
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

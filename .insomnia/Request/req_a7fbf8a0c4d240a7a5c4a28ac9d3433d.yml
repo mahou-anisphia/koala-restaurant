@@ -1,0 +1,38 @@
+_id: req_a7fbf8a0c4d240a7a5c4a28ac9d3433d
+type: Request
+parentId: wrk_e72e621907f44e2a9e292c294ba8c8f7
+modified: 1720694687204
+created: 1720694219535
+url: https://koala-restaurant.vercel.app/api/v1/menu
+name: addMenu
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Los Pollos Hermanos Speciality",
+    	"description": "Mein menu!!!!!",
+    	"locationID": 2
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_278625280d5149da8f629edc244b84c1
+  - name: User-Agent
+    value: insomnia/2023.5.8
+    id: pair_3212cb40925b433e9113b8a7c0118bae
+  - id: pair_e56b8f5e64134c7ea48dd32083730610
+    name: Authorization
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTcyMDYxNzYyNywiZXhwIjoxNzIwODc2ODI3fQ.gzTvUhQljti5b3-SWQ3pTxHYF_n89Xs4B1gy3FwGJZU
+    description: ""
+authentication: {}
+metaSortKey: -1720694219535
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
