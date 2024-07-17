@@ -45,10 +45,7 @@ class CategoryController {
     try {
       const success = await Category.updateCategory(
         categoryID,
-        {
-          Name,
-          Description,
-        },
+        category,
         userID
       );
       if (success) {
