@@ -8,45 +8,43 @@ class ReservationController {
       req.body;
     const userID = req.user.UserID;
 
-    if (!tableID || !reservationTime || !status || !locationID) {
-      return res.status(400).json({ message: "Required fields are missing" });
-    }
-
-    const validStatus = ["Pending", "Confirmed", "Cancelled"];
-    if (!validStatus.includes(status)) {
-      return res.status(400).json({ message: "Invalid Status" });
-    }
-
-    const now = new Date();
-    const reservationDate = new Date(reservationTime);
-    const oneWeekLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    if (isNaN(reservationDate.getTime())) {
-      return res.status(400).json({ message: "Invalid reservation date" });
-    }
-    if (reservationDate < now) {
-      return res
-        .status(400)
-        .json({ message: "Reservation time cannot be in the past" });
-    }
-
-    if (reservationDate > oneWeekLater) {
-      return res.status(400).json({
-        message: "Reservation time cannot be more than a week in advance",
-      });
-    }
-
-    // add try catch block
-    const validateLocation = await Location.FindByID(locationID);
-    if (!validateLocation) {
-      return res.status(400).json({ message: "Location does not exist" });
-    }
-
-    const validateTable = await DiningTable.getDiningTableByID(tableID);
-    if (!validateTable) {
-      return res.status(400).json({ message: "Table does not exist" });
-    }
-
     try {
+      if (!tableID || !reservationTime || !status || !locationID) {
+        return res.status(400).json({ message: "Required fields are missing" });
+      }
+
+      const validStatus = ["Pending", "Confirmed", "Cancelled"];
+      if (!validStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid Status" });
+      }
+
+      const now = new Date();
+      const reservationDate = new Date(reservationTime);
+      const oneWeekLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      if (isNaN(reservationDate.getTime())) {
+        return res.status(400).json({ message: "Invalid reservation date" });
+      }
+      if (reservationDate < now) {
+        return res
+          .status(400)
+          .json({ message: "Reservation time cannot be in the past" });
+      }
+
+      if (reservationDate > oneWeekLater) {
+        return res.status(400).json({
+          message: "Reservation time cannot be more than a week in advance",
+        });
+      }
+
+      const validateLocation = await Location.FindByID(locationID);
+      if (!validateLocation) {
+        return res.status(400).json({ message: "Location does not exist" });
+      }
+
+      const validateTable = await DiningTable.getDiningTableByID(tableID);
+      if (!validateTable) {
+        return res.status(400).json({ message: "Table does not exist" });
+      }
       const reservationID = await Reservation.CreateReservation(
         userID,
         tableID,
@@ -67,11 +65,11 @@ class ReservationController {
 
   static async ViewReservationByID(req, res) {
     const { id: reservationID } = req.params;
-    if (!reservationID) {
-      return res.status(400).json({ message: "ReservationID is required" });
-    }
 
     try {
+      if (!reservationID) {
+        return res.status(400).json({ message: "ReservationID is required" });
+      }
       const reservation = await Reservation.GetReservationByID(reservationID);
       if (reservation) {
         return res.status(200).json({ reservation });
@@ -86,11 +84,11 @@ class ReservationController {
 
   static async ViewReservationsByLocationID(req, res) {
     const { id: locationID } = req.params;
-    if (!locationID) {
-      return res.status(400).json({ message: "LocationID is required" });
-    }
 
     try {
+      if (!locationID) {
+        return res.status(400).json({ message: "LocationID is required" });
+      }
       const reservations = await Reservation.GetReservationsByLocationID(
         locationID
       );
@@ -105,16 +103,16 @@ class ReservationController {
     const { id: reservationID } = req.params;
     const { status } = req.body;
 
-    if (!reservationID || !status) {
-      return res
-        .status(400)
-        .json({ message: "ReservationID and status are required" });
-    }
-    const validStatus = ["Pending", "Confirmed", "Cancelled"];
-    if (!validStatus.includes(status)) {
-      return res.status(400).json({ message: "Invalid Status" });
-    }
     try {
+      if (!reservationID || !status) {
+        return res
+          .status(400)
+          .json({ message: "ReservationID and status are required" });
+      }
+      const validStatus = ["Pending", "Confirmed", "Cancelled"];
+      if (!validStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid Status" });
+      }
       const success = await Reservation.UpdateReservationStatus(
         reservationID,
         status
@@ -134,11 +132,11 @@ class ReservationController {
 
   static async DeleteReservation(req, res) {
     const { id: reservationID } = req.params;
-    if (!reservationID) {
-      return res.status(400).json({ message: "ReservationID is required" });
-    }
 
     try {
+      if (!reservationID) {
+        return res.status(400).json({ message: "ReservationID is required" });
+      }
       const success = await Reservation.DeleteReservation(reservationID);
       if (success) {
         return res
