@@ -49,7 +49,7 @@ class DiningTableController {
   static async UpdateTable(req, res) {
     try {
       const userID = req.user.UserID;
-      const { capacity, location, locationID } = req.body;
+      const { capacity, location } = req.body;
       const tableID = req.params.id;
       if (!tableID) {
         return res.status(400).json({ message: "TableID is required" });
@@ -61,7 +61,8 @@ class DiningTableController {
       // ensure no null input entered
       presetTable.capacity = capacity || presetTable.Capacity;
       presetTable.location = location || presetTable.Location;
-      presetTable.locationID = locationID || presetTable.LocationID;
+      // modify a table to another location is not necessary
+      // presetTable.locationID = locationID || presetTable.LocationID;
       const affectedRows = await DiningTable.updateDiningTable(
         tableID,
         presetTable.capacity,
