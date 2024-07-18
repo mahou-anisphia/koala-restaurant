@@ -12,7 +12,7 @@ class DiningTableController {
       }
       const validateLocation = await Location.FindByID(locationID);
       if (!validateLocation) {
-        return res.status(400).json({ message: "Invalid location!" });
+        return res.status(404).json({ message: "Invalid location!" });
       }
       const tableID = await DiningTable.createDiningTable(
         capacity,
@@ -71,7 +71,8 @@ class DiningTableController {
         userID
       );
       if (affectedRows === 0) {
-        return res.status(404).json({ message: "Dining table not found" });
+        console.error("table's data in the DB is modified during execution");
+        res.status(500).json({ message: "Internal server error" });
       }
       res.status(200).json({ message: "Dining table updated successfully" });
     } catch (error) {
@@ -94,7 +95,10 @@ class DiningTableController {
       if (validate) {
         return res.status(200).json({ message: "Table deleted successfully" });
       }
-      res.status(500).json({ message: "Error deleting dining table" });
+      console.error(
+        "table data is modified during execution, cause unexpected error"
+      );
+      return res.status(500).json({ message: "Internal server error" });
     } catch (error) {
       console.error("Error delete table:", error);
       res.status(500).json({ message: "Internal server error" });
@@ -111,9 +115,7 @@ class DiningTableController {
       res.status(200).json(tables);
     } catch (error) {
       console.error("Error get by locationID:", error);
-      res
-        .status(500)
-        .json({ message: "Error retrieving dining tables by location" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 }
