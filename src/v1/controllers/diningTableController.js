@@ -25,7 +25,7 @@ class DiningTableController {
         .json({ message: "Dining table created successfully", tableID });
     } catch (error) {
       console.error("Error create dining table:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -42,7 +42,7 @@ class DiningTableController {
       res.status(200).json(table);
     } catch (error) {
       console.error("Error getbyID:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -55,6 +55,9 @@ class DiningTableController {
         return res.status(400).json({ message: "TableID is required" });
       }
       const presetTable = await DiningTable.getDiningTableByID(tableID);
+      if (!presetTable) {
+        return res.status(404).json({ message: "Table not found" });
+      }
       // ensure no null input entered
       capacity = capacity || presetTable.Capacity;
       location = location || presetTable.Location;
@@ -72,7 +75,7 @@ class DiningTableController {
       res.status(200).json({ message: "Dining table updated successfully" });
     } catch (error) {
       console.error("Error update dining table:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -93,7 +96,7 @@ class DiningTableController {
       res.status(500).json({ message: "Error deleting dining table" });
     } catch (error) {
       console.error("Error delete table:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
