@@ -59,14 +59,14 @@ class DiningTableController {
         return res.status(404).json({ message: "Table not found" });
       }
       // ensure no null input entered
-      capacity = capacity || presetTable.Capacity;
-      location = location || presetTable.Location;
-      locationID = locationID || presetTable.LocationID;
+      presetTable.capacity = capacity || presetTable.Capacity;
+      presetTable.location = location || presetTable.Location;
+      presetTable.locationID = locationID || presetTable.LocationID;
       const affectedRows = await DiningTable.updateDiningTable(
         tableID,
-        capacity,
-        location,
-        locationID,
+        presetTable.capacity,
+        presetTable.location,
+        presetTable.locationID,
         userID
       );
       if (affectedRows === 0) {
