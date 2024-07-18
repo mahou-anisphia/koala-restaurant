@@ -51,6 +51,10 @@ To start the project, run:
 npm run dev
 ```
 
+## API Testing
+
+API test is defined in the .insomnia folder and available for anyone who wants to test the application.
+
 ## Dependencies
 
 This project uses the following dependencies:
