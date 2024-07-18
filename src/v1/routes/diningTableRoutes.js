@@ -14,7 +14,7 @@ router.post(
 router.get("/table/:id", DiningTableController.GetByID);
 
 // Route to update a dining table
-router.put(
+router.patch(
   "/table/:id",
   UserVerifyMiddleware.VerifyWaiter,
   DiningTableController.UpdateTable
