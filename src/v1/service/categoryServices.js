@@ -1,11 +1,11 @@
 const pool = require("../../data-access/database");
 
 class Category {
-  static async createCategory(categoryData, userID) {
+  static async createCategory(categoryData) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
-        const { Name, Description } = categoryData;
+        const { Name, Description, userID } = categoryData;
         const CreatedBy = userID;
         const values = { Name, Description, CreatedBy };
 
@@ -28,12 +28,12 @@ class Category {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
         const { Name, Description } = categoryData;
-        const values = { Name, Description };
         const ModifiedBy = userID;
+        const values = { Name, Description, ModifiedBy };
 
         connection.query(
           `UPDATE Category SET ? WHERE CategoryID = ?`,
-          [values, categoryID, ModifiedBy],
+          [values, categoryID],
           (error, result) => {
             connection.release();
             if (error) {
