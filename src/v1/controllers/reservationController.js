@@ -44,7 +44,7 @@ class ReservationController {
       if (!validateTable) {
         return res.status(400).json({ message: "Table does not exist" });
       }
-      const locationID = validateTable.locationID;
+      const locationID = validateTable.LocationID;
       if (!locationID) {
         console.error(
           "The table's location is not associated, there's an error in table's data in the DB or error while fetching data"
