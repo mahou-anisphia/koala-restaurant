@@ -65,7 +65,7 @@ class ReservationController {
       });
     } catch (error) {
       console.error("Error in CreateReservation:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -84,7 +84,7 @@ class ReservationController {
       }
     } catch (error) {
       console.error("Error in ViewReservationByID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -101,7 +101,7 @@ class ReservationController {
       return res.status(200).json({ reservations });
     } catch (error) {
       console.error("Error in ViewReservationsByLocationID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -132,7 +132,7 @@ class ReservationController {
       }
     } catch (error) {
       console.error("Error in UpdateReservationStatus:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -153,7 +153,7 @@ class ReservationController {
       }
     } catch (error) {
       console.error("Error in DeleteReservation:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
   static async GetReservationsByStatusAndLocationID(req, res) {
@@ -179,7 +179,7 @@ class ReservationController {
       return res.status(200).json({ reservations });
     } catch (error) {
       console.error("Error in GetReservationsByStatusAndLocationID:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 }
