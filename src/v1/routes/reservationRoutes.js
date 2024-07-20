@@ -25,7 +25,7 @@ router.post(
   ReservationController.CreateReservation
 );
 
-router.put(
+router.patch(
   "/reservation/:id",
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.UpdateReservationStatus
