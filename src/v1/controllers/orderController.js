@@ -8,7 +8,7 @@ class OrderController {
   // Create a new order
   static async createOrder(req, res) {
     try {
-      const { TableID, Status } = req.body;
+      const { tableID: TableID, status: Status } = req.body;
       const UserID = req.user.UserID;
       if (!TableID || !Status) {
         return res.status(400).json({ message: "Input missing fields!" });
@@ -21,6 +21,7 @@ class OrderController {
       if (!validateStatus.includes(Status)) {
         return res.status(400).json({ message: "Invalid Status Entered" });
       }
+      // fetch the location from the table
       const LocationID = table.LocationID;
       const orderData = { UserID, TableID, Status, LocationID };
       const orderId = await Order.createOrder(orderData);
