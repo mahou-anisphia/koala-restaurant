@@ -49,7 +49,7 @@ router.post(
 );
 
 // Update item status (assuming only one result)
-router.put(
+router.patch(
   "/orders/items/:id/status/:status",
   UserVerifyMiddleware.VerifyWaiterAndChef,
   OrderController.updateItemStatus
