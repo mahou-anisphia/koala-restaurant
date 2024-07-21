@@ -63,7 +63,7 @@ class OrderController {
       if (!validateStatus.includes(Status)) {
         return res.status(400).json({ message: "Invalid Status Entered" });
       }
-      const affectedRows = await Order.updateOrderStatus(orderId, status);
+      const affectedRows = await Order.updateOrderStatus(orderId, Status);
       if (affectedRows > 0) {
         res
           .status(200)
