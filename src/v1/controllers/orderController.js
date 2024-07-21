@@ -47,7 +47,7 @@ class OrderController {
       }
     } catch (error) {
       console.error("Error in readOrder: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -70,12 +70,12 @@ class OrderController {
           .json({ message: "Order's status updated successfully" });
       } else {
         res.status(404).json({
-          message: "Order not found or no change in status",
+          message: "Order not found!",
         });
       }
     } catch (error) {
       console.error("Error in updateOrderStatus: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 

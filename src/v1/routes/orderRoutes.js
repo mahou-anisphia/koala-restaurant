@@ -27,18 +27,18 @@ router.patch(
   OrderController.updateOrderStatus
 );
 
-// Delete a single order by OrderID
-router.delete(
-  "/orders/:id",
-  UserVerifyMiddleware.VerifyWaiter,
-  OrderController.deleteOrder
-);
-
 // Delete all orders in a timeframe
 router.delete(
   "/orders/timeframe",
   UserVerifyMiddleware.VerifyWaiter,
   OrderController.deleteOrdersInTimeframe
+);
+
+// Delete a single order by OrderID
+router.delete(
+  "/orders/:id",
+  UserVerifyMiddleware.VerifyWaiter,
+  OrderController.deleteOrder
 );
 
 // Select an order in a location
@@ -60,27 +60,6 @@ router.put(
   "/orders/items/:id/status/:status",
   UserVerifyMiddleware.VerifyWaiterAndChef,
   OrderController.updateItemStatus
-);
-
-// Show orders by status and location (assuming only one result)
-router.get(
-  "/orders/location/:id/status/:status",
-  UserVerifyMiddleware.VerifyWaiterAndChef,
-  OrderController.showOrdersByStatusAndLocation
-);
-
-// Show items by status and location (assuming only one result)
-router.get(
-  "/orders/items/location/:id/status/:status",
-  UserVerifyMiddleware.VerifyWaiterAndChef,
-  OrderController.showItemsByStatusLocation
-);
-
-// Show items by status, location, and table (assuming only one result)
-router.get(
-  "/orders/items/location/:id/status/:status/table",
-  UserVerifyMiddleware.VerifyWaiter,
-  OrderController.showItemsByStatusAndLocationWithTable
 );
 
 module.exports = router;
