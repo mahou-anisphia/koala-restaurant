@@ -28,7 +28,7 @@ class OrderController {
       res.status(201).json({ message: "Order created successfully", orderId });
     } catch (error) {
       console.error("Error in createOrder: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 

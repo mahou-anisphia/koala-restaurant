@@ -21,7 +21,7 @@ router.get(
 );
 
 // Update order status
-router.put(
+router.patch(
   "/orders/:id/status",
   UserVerifyMiddleware.VerifyWaiter,
   OrderController.updateOrderStatus
