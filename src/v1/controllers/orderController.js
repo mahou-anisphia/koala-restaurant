@@ -158,7 +158,13 @@ class OrderController {
   // Add an item to an order
   static async addItem(req, res) {
     try {
-      const { OrderID, DishID, Quantity, Status, SpecialRequests } = req.body;
+      const {
+        orderID: OrderID,
+        dishID: DishID,
+        quantity: Quantity,
+        status: Status,
+        specialRequests: SpecialRequests,
+      } = req.body;
       const orderItemData = {
         OrderID,
         DishID,
@@ -166,7 +172,7 @@ class OrderController {
         Status,
         SpecialRequests,
       };
-      if (!OrderID || !DishID || !Quantity || !Status || !SpecialRequests) {
+      if (!OrderID || !DishID || !Quantity || !Status) {
         return res.status(400).json({ message: "Missing input fields" });
       }
       const validateStatus = [
