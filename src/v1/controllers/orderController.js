@@ -55,7 +55,10 @@ class OrderController {
   static async updateOrderStatus(req, res) {
     try {
       const { id: orderId } = req.params;
-      const { status } = req.body;
+      const { status: Status } = req.body;
+      if (!Status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
       const validateStatus = ["Pending", "Preparing", "Served", "Completed"];
       if (!validateStatus.includes(Status)) {
         return res.status(400).json({ message: "Invalid Status Entered" });
