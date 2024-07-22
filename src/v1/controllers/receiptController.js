@@ -85,7 +85,7 @@ class ReceiptController {
       if (!receiptToUpdate) {
         return res.status(404).json({ message: "Receipt not found" });
       }
-      const timestamp = Date.now();
+      const timestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
       const receiptData = {
         OrderID: receiptToUpdate.OrderID,
         Amount: receiptToUpdate.amount,
