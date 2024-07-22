@@ -72,6 +72,7 @@ const categoryRoutes = require("./v1/routes/categoryRoutes");
 const diningTableRoutes = require("./v1/routes/diningTableRoutes");
 const reservationRoutes = require("./v1/routes/reservationRoutes");
 const orderRoutes = require("./v1/routes/orderRoutes");
+const receiptRoutes = require("./v1/routes/receiptRoutes");
 
 app.use(bodyParser.json());
 
@@ -95,6 +96,7 @@ app.use("/api/v1/", categoryRoutes);
 app.use("/api/v1/", diningTableRoutes);
 app.use("/api/v1/", reservationRoutes);
 app.use("/api/v1/", orderRoutes);
+app.use("/api/v1/", receiptRoutes);
 app.use(
   "/api/docs",
   express.static(path.join(__dirname, "node_modules/swagger-ui-dist"))
