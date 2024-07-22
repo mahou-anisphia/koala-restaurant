@@ -1,5 +1,5 @@
 const Receipt = require("../service/receiptServices");
-const Location = require("../service/locationServices");
+const Order = require("../service/orderServices");
 class ReceiptController {
   // Create a new receipt
   static async createReceipt(req, res) {
@@ -8,12 +8,16 @@ class ReceiptController {
         orderID: OrderID,
         amount: Amount,
         paymentMethod: PaymentMethod,
-        locationID: LocationID,
       } = req.body;
-      if (!OrderID || !Amount || !LocationID) {
+      if (!OrderID || !Amount) {
         return res.status(400).json({ message: "Missing input fields" });
       }
-      const validateLocation = await Location.FindByID(LocationID);
+      const validateOrder = await Order.readOrder(OrderID);
+      if (!validateOrder) {
+        return res.status(404).json({ message: "Order associated not found" });
+      }
+      // get ID from order
+      const LocationID = validateOrder.LocationID;
       if (!validateLocation) {
         return res
           .status(404)
