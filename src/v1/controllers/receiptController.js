@@ -9,7 +9,7 @@ class ReceiptController {
         amount: Amount,
         paymentMethod: PaymentMethod,
       } = req.body;
-      if (!OrderID || !Amount) {
+      if (!OrderID || !Amount || !PaymentMethod) {
         return res.status(400).json({ message: "Missing input fields" });
       }
       const validateOrder = await Order.readOrder(OrderID);
@@ -18,11 +18,6 @@ class ReceiptController {
       }
       // get ID from order
       const LocationID = validateOrder.LocationID;
-      if (!validateLocation) {
-        return res
-          .status(404)
-          .json({ message: "Location associated is not found" });
-      }
       const receiptID = await Receipt.createReceipt({
         OrderID,
         Amount,
