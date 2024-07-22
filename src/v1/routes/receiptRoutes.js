@@ -13,7 +13,7 @@ router.post("/receipts", ReceiptController.createReceipt);
 router.get("/receipts/:id", ReceiptController.getReceiptById);
 
 // Update a receipt by ID
-router.put("/receipts/:id", ReceiptController.updateReceipt);
+router.patch("/receipts/:id", ReceiptController.updateReceipt);
 
 // Delete a receipt by ID
 router.delete("/receipts/:id", ReceiptController.deleteReceipt);
