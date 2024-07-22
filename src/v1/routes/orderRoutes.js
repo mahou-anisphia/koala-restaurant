@@ -55,14 +55,13 @@ router.patch(
   OrderController.updateItemStatus
 );
 
-// Show orders by status and location
+// Show orders with table by status and location
 router.get(
-  "/orders/location/:id",
+  "/orders/with-table/location/:id",
   UserVerifyMiddleware.VerifyWaiterAndChef,
   OrderController.showOrdersByLocation
 );
 
-// To be fixed
 // Show items by status and location
 router.get(
   "/orders/items/location/:id",
