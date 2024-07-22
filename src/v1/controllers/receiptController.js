@@ -18,6 +18,7 @@ class ReceiptController {
       }
       // get ID from order
       const LocationID = validateOrder.LocationID;
+      const PaymentTime = null;
       const receiptID = await Receipt.createReceipt({
         OrderID,
         Amount,
