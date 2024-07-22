@@ -142,7 +142,7 @@ class ReceiptController {
   // View receipts from time to time
   static async viewReceiptsFromTimeToTime(req, res) {
     try {
-      const { startTime, endTime } = req.query;
+      const { startTime, endTime } = req.body;
       // Check if startTime or endTime is missing
       if (!startTime || !endTime) {
         return res
