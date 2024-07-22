@@ -21,6 +21,9 @@ router.delete("/receipts/:id", ReceiptController.deleteReceipt);
 // View all receipts
 router.get("/receipts", ReceiptController.viewAllReceipts);
 
+// View receipt for a location
+router.get("/receipts/location/:id", ReceiptController.getReceiptByLocationId);
+
 // View receipts from time to time
 router.get(
   "/receipts/time-range",

@@ -54,6 +54,25 @@ class ReceiptController {
     }
   }
 
+  static async getReceiptByLocationId(req, res) {
+    try {
+      const locationID = req.params.id;
+      if (!locationID) {
+        return res.status(400).json({ message: "id is required" });
+      }
+      const receipts = await Receipt.getReceiptByLocationId(locationID);
+      if (receipts) {
+        return res.status(200).json(receipts);
+      } else {
+        console.error("null data received from DB");
+        return res.status(500).json({ message: "Internal server error" });
+      }
+    } catch (error) {
+      console.error("error in getReceiptById", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   // Update a receipt by ID
   // payment time means that the receipt is paid, if it is null, not paid.
   static async updateReceipt(req, res) {

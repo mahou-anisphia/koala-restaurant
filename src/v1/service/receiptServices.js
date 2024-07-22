@@ -52,6 +52,26 @@ class Receipt {
     });
   }
 
+  static async getReceiptByLocationId(locationID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        connection.query(
+          `SELECT * FROM Receipt WHERE LocationID = ?`,
+          [locationID],
+          (error, results) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(results); // Return the receipt data
+          }
+        );
+      });
+    });
+  }
+
   // Update a receipt by ID
   static async updateReceipt(receiptID, receiptData) {
     return new Promise((resolve, reject) => {
