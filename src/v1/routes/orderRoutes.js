@@ -55,23 +55,24 @@ router.patch(
   OrderController.updateItemStatus
 );
 
-// Show orders by status and location (assuming only one result)
+// Show orders by status and location
 router.get(
-  "/orders/location/:id/status/:status",
+  "/orders/location/:id",
   UserVerifyMiddleware.VerifyWaiterAndChef,
-  OrderController.showOrdersByStatusAndLocation
+  OrderController.showOrdersByLocation
 );
 
-// Show items by status and location (assuming only one result)
+// To be fixed
+// Show items by status and location
 router.get(
-  "/orders/items/location/:id/status/:status",
+  "/orders/items/location/:id",
   UserVerifyMiddleware.VerifyWaiterAndChef,
   OrderController.showItemsByStatusLocation
 );
 
-// Show items by status, location, and table (assuming only one result)
+// Show items by status, location, and table
 router.get(
-  "/orders/items/location/:id/status/:status/table",
+  "/orders/items/location/:id/table",
   UserVerifyMiddleware.VerifyWaiter,
   OrderController.showItemsByStatusAndLocationWithTable
 );

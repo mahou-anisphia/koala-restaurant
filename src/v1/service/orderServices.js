@@ -218,7 +218,7 @@ class Order {
     });
   }
   // to be added
-  static async showOrdersByStatusAndLocation(status, locationID) {
+  static async showOrdersByLocation(locationID) {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) return reject(err);
@@ -226,10 +226,10 @@ class Order {
         const query = `
         SELECT *
         FROM OrderItemWithTableDetails
-        WHERE OrderStatus = ? AND LocationID = ?
+        WHERE LocationID = ?
       `;
 
-        connection.query(query, [status, locationID], (error, results) => {
+        connection.query(query, [locationID], (error, results) => {
           connection.release();
           if (error) {
             return reject(error);

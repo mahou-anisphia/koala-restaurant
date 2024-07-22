@@ -290,14 +290,10 @@ class OrderController {
     }
   }
 
-  static async showOrdersByStatusAndLocation(req, res) {
-    const { status: status, id: locationID } = req.params;
-    const validateStatus = ["Pending", "Preparing", "Served", "Completed"];
-    if (!validateStatus.includes(status)) {
-      return res.status(400).json({ message: "Invalid Status Entered" });
-    }
+  static async showOrdersByLocation(req, res) {
+    const { id: locationID } = req.params;
     try {
-      const orders = await Order.findByStatusAndLocation(status, locationID);
+      const orders = await Order.showOrdersByLocation(locationID);
       res.status(200).json(orders);
     } catch (error) {
       console.error("Error fetching orders:", error);
