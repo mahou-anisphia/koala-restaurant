@@ -62,18 +62,18 @@ router.get(
   OrderController.showOrdersByLocation
 );
 
-// Show items by status and location
-router.get(
-  "/orders/items/location/:id",
-  UserVerifyMiddleware.VerifyWaiterAndChef,
-  OrderController.showItemsByStatusLocation
-);
+// // Show items by status and location
+// router.get(
+//   "/orders/items/location/:id",
+//   UserVerifyMiddleware.VerifyWaiterAndChef,
+//   OrderController.showItemsByStatusLocation
+// );
 
-// Show items by status, location, and table
-router.get(
-  "/orders/items/location/:id/table",
-  UserVerifyMiddleware.VerifyWaiter,
-  OrderController.showItemsByStatusAndLocationWithTable
-);
+// // Show items by status, location, and table
+// router.get(
+//   "/orders/items/location/:id/table",
+//   UserVerifyMiddleware.VerifyWaiter,
+//   OrderController.showItemsByStatusAndLocationWithTable
+// );
 
 module.exports = router;
