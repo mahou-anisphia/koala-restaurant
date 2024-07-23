@@ -27,6 +27,13 @@ router.patch(
   OrderController.updateOrderStatus
 );
 
+// Delete orders in timeframe
+router.delete(
+  "/orders/timeframe",
+  UserVerifyMiddleware.VerifyWaiter,
+  OrderController.deleteOrdersInTimeframe
+);
+
 // Delete a single order item by OrderItemID
 router.delete(
   "/orders/item/:id",

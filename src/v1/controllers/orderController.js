@@ -56,8 +56,8 @@ class OrderController {
     try {
       const { id: orderId } = req.params;
       const { status: Status } = req.body;
-      if (!Status) {
-        return res.status(400).json({ message: "Status is required" });
+      if (!Status || !orderId) {
+        return res.status(400).json({ message: "Status and id are required" });
       }
       const validateStatus = ["Pending", "Preparing", "Served", "Completed"];
       if (!validateStatus.includes(Status)) {
@@ -91,7 +91,7 @@ class OrderController {
       }
     } catch (error) {
       console.error("Error in deleteOrder: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -167,7 +167,7 @@ class OrderController {
       res.status(200).json({ orders });
     } catch (error) {
       console.error("Error in selectOrdersByLocation", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
