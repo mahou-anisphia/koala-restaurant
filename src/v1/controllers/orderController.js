@@ -107,7 +107,7 @@ class OrderController {
       }
     } catch (error) {
       console.error("Error in deleteOrderItem: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -151,7 +151,7 @@ class OrderController {
       res.status(200).json({ message: "Orders deleted", affectedRows });
     } catch (error) {
       console.error("Error in deleteOrdersInTimeframe: ", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -213,7 +213,7 @@ class OrderController {
       res.status(201).json({ message: "Dish added successfully", orderItemId });
     } catch (error) {
       console.error("Error in addItem", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -245,7 +245,7 @@ class OrderController {
       }
     } catch (error) {
       console.error("Error in updateItemStatus", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -274,7 +274,7 @@ class OrderController {
       res.status(200).json({ success: true, items });
     } catch (error) {
       console.error("Error in showItemsByStatusLocation", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
   // for waiter
@@ -302,7 +302,7 @@ class OrderController {
       res.status(200).json({ success: true, items });
     } catch (error) {
       console.error("Error in showItemsByStatusAndLocation", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 

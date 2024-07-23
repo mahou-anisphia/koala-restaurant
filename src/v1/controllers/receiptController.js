@@ -64,7 +64,7 @@ class ReceiptController {
       if (receipts) {
         return res.status(200).json(receipts);
       } else {
-        console.error("null data received from DB");
+        console.error("DB error");
         return res.status(500).json({ message: "Internal server error" });
       }
     } catch (error) {
