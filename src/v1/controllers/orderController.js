@@ -95,6 +95,22 @@ class OrderController {
     }
   }
 
+  //delete order item
+  static async deleteOrderItem(req, res) {
+    try {
+      const { id: orderItemId } = req.params;
+      const affectedRows = await Order.deleteOrderItem(orderItemId);
+      if (affectedRows > 0) {
+        res.status(200).json({ message: "Order item deleted successfully" });
+      } else {
+        res.status(404).json({ message: "Order item not found" });
+      }
+    } catch (error) {
+      console.error("Error in deleteOrderItem: ", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   // Delete all orders in a timeframe
   static async deleteOrdersInTimeframe(req, res) {
     try {

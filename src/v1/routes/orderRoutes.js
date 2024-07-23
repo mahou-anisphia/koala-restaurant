@@ -27,6 +27,13 @@ router.patch(
   OrderController.updateOrderStatus
 );
 
+// Delete a single order item by OrderItemID
+router.delete(
+  "/orders/item/:id",
+  UserVerifyMiddleware.VerifyWaiter,
+  OrderController.deleteOrderItem
+);
+
 // Delete a single order by OrderID
 router.delete(
   "/orders/:id",

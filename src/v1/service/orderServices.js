@@ -87,6 +87,27 @@ class Order {
     });
   }
 
+  // Delete a single orderItem
+  static async deleteOrderItem(orderItemID) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) return reject(err);
+
+        connection.query(
+          `DELETE FROM OrderItem WHERE OrderItemID = ?`,
+          [orderItemID],
+          (error, result) => {
+            connection.release();
+            if (error) {
+              return reject(error);
+            }
+            resolve(result.affectedRows); // Return the number of affected rows
+          }
+        );
+      });
+    });
+  }
+
   // Delete all orders in a timeframe
   static async deleteOrdersInTimeframe(startTime, endTime) {
     return new Promise((resolve, reject) => {
