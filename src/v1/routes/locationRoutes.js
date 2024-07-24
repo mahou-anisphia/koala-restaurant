@@ -369,13 +369,19 @@ router.post(
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: |
- *                    Location not found (for location)
- *                    User does not exist (for user)
+ *              oneOf:
+ *                - type: object
+ *                  properties:
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                        Location not found
+ *                - type: object
+ *                  properties:
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                        User does not exist
  *
  *       401:
  *         description: Unauthorized request
@@ -455,13 +461,19 @@ router.patch(
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: |
- *                    Location not found (for location)
- *                    User does not exist (for user)
+ *              oneOf:
+ *                - type: object
+ *                  properties:
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                        Location not found
+ *                - type: object
+ *                  properties:
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                        User does not exist
  *       401:
  *         description: Unauthorized request
  *         content:
