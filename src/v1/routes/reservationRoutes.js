@@ -4,12 +4,13 @@ const UserVerifyMiddleware = require("../middleware/UserVerifyMiddleware");
 const router = express.Router();
 
 // CURRENT VERSION DOES NOT SUPPORT CUSTOMER RESERVE FOR THEMSELVES
+// GetReservationsByStatusAndLocationID Endpoint
 /**
  * @swagger
  * /api/v1/reservation/location/{id}/status/{status}:
  *   get:
  *     summary: Get reservations by status and location ID
- *     description: Retrieve reservations filtered by their status and location ID if the user has the Waiter role and provides a valid token.
+ *     description: Retrieve reservations based on the provided status and location ID. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -26,7 +27,7 @@ const router = express.Router();
  *         schema:
  *           type: string
  *           enum: [Pending, Confirmed, Cancelled]
- *         description: Status of the reservations to filter
+ *         description: Status of the reservations
  *     responses:
  *       200:
  *         description: Reservations retrieved successfully
@@ -57,7 +58,7 @@ const router = express.Router();
  *                       LocationID:
  *                         type: integer
  *       400:
- *         description: Bad request - Status and LocationID are required or Invalid Status
+ *         description: Bad request - Missing or invalid status or location ID
  *         content:
  *           application/json:
  *             schema:
@@ -65,7 +66,11 @@ const router = express.Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Status and LocationID are required" or "Invalid Status"
+ *                   examples:
+ *                     MissingRequiredFields:
+ *                       value: "Status and LocationID are required"
+ *                     InvalidStatus:
+ *                       value: "Invalid Status"
  *       500:
  *         description: Internal server error
  *         content:
@@ -77,19 +82,18 @@ const router = express.Router();
  *                   type: string
  *                   example: "Internal server error"
  */
-
 router.get(
   "/reservation/location/:id/status/:status",
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.GetReservationsByStatusAndLocationID
 );
-
+// ViewReservationsByLocationID Endpoint
 /**
  * @swagger
  * /api/v1/reservation/location/{id}:
  *   get:
  *     summary: View reservations by location ID
- *     description: Retrieve all reservations for a specific location ID if the user has the Waiter role and provides a valid token.
+ *     description: Retrieve all reservations for a specific location. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -130,7 +134,7 @@ router.get(
  *                       LocationID:
  *                         type: integer
  *       400:
- *         description: Bad request - LocationID is required
+ *         description: Bad request - Missing location ID
  *         content:
  *           application/json:
  *             schema:
@@ -150,18 +154,18 @@ router.get(
  *                   type: string
  *                   example: "Internal server error"
  */
-
 router.get(
   "/reservation/location/:id",
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.ViewReservationsByLocationID
 );
+// ViewReservationByID Endpoint
 /**
  * @swagger
  * /api/v1/reservation/{id}:
  *   get:
  *     summary: View reservation by ID
- *     description: Retrieve a specific reservation by its ID if the user has the Waiter role and provides a valid token.
+ *     description: Retrieve a reservation by its ID. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -200,7 +204,7 @@ router.get(
  *                     LocationID:
  *                       type: integer
  *       400:
- *         description: Bad request - ReservationID is required
+ *         description: Bad request - Missing reservation ID
  *         content:
  *           application/json:
  *             schema:
@@ -235,12 +239,13 @@ router.get(
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.ViewReservationByID
 );
+// CreateReservation Endpoint
 /**
  * @swagger
- * /api/v1/reservation:
+ * /api/v1/reservation/:
  *   post:
  *     summary: Create a new reservation
- *     description: Create a new reservation if the user has the Waiter role and provides a valid token.
+ *     description: Create a new reservation with the provided details. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -276,7 +281,7 @@ router.get(
  *                 ReservationID:
  *                   type: integer
  *       400:
- *         description: Bad request - Required fields are missing or Invalid data
+ *         description: Bad request - Invalid input
  *         content:
  *           application/json:
  *             schema:
@@ -284,7 +289,19 @@ router.get(
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Required fields are missing" or "Invalid Status" or "Invalid reservation date" or "Reservation time cannot be in the past" or "Reservation time cannot be more than a week in advance" or "Table does not exist"
+ *                   examples:
+ *                     MissingFields:
+ *                       value: "Required fields are missing"
+ *                     InvalidStatus:
+ *                       value: "Invalid Status"
+ *                     InvalidDate:
+ *                       value: "Invalid reservation date"
+ *                     PastTime:
+ *                       value: "Reservation time cannot be in the past"
+ *                     FutureTime:
+ *                       value: "Reservation time cannot be more than a week in advance"
+ *                     InvalidTable:
+ *                       value: "Table does not exist"
  *       500:
  *         description: Internal server error
  *         content:
@@ -302,12 +319,14 @@ router.post(
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.CreateReservation
 );
+
+// UpdateReservationStatus Endpoint
 /**
  * @swagger
  * /api/v1/reservation/{id}:
  *   patch:
  *     summary: Update reservation status
- *     description: Update the status of an existing reservation if the user has the Waiter role and provides a valid token.
+ *     description: Update the status of a reservation. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -340,7 +359,7 @@ router.post(
  *                   type: string
  *                   example: "Reservation status updated successfully"
  *       400:
- *         description: Bad request - ReservationID and status are required or Invalid Status
+ *         description: Bad request - Missing or invalid status or reservation ID
  *         content:
  *           application/json:
  *             schema:
@@ -348,7 +367,11 @@ router.post(
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "ReservationID and status are required" or "Invalid Status"
+ *                   examples:
+ *                     MissingFields:
+ *                       value: "ReservationID and status are required"
+ *                     InvalidStatus:
+ *                       value: "Invalid Status"
  *       404:
  *         description: Reservation not found
  *         content:
@@ -370,19 +393,19 @@ router.post(
  *                   type: string
  *                   example: "Internal server error"
  */
-
 router.patch(
   "/reservation/:id",
   UserVerifyMiddleware.VerifyWaiter,
   ReservationController.UpdateReservationStatus
 );
 
+// DeleteReservation Endpoint
 /**
  * @swagger
  * /api/v1/reservation/{id}:
  *   delete:
  *     summary: Delete a reservation
- *     description: Delete a specific reservation by its ID if the user has the Waiter role and provides a valid token.
+ *     description: Delete a reservation identified by the provided ID. Requires Waiter role.
  *     tags: [V1 Reservation Management]
  *     security:
  *       - bearerAuth: []
@@ -405,7 +428,7 @@ router.patch(
  *                   type: string
  *                   example: "Reservation deleted successfully"
  *       400:
- *         description: Bad request - ReservationID is required
+ *         description: Bad request - Missing reservation ID
  *         content:
  *           application/json:
  *             schema:
