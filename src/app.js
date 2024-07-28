@@ -86,7 +86,6 @@ app.use((req, res, next) => {
   }
 });
 
-app.use("/api/v1/", devRoutes);
 app.use("/api/v1/", userRoutes);
 app.use("/api/v1/", ownerRoutes);
 app.use("/api/v1/", dishRoutes);
@@ -110,5 +109,6 @@ app.use(
     customCssUrl: CSS_URL,
   })
 );
+app.use("/api/v1/", devRoutes);
 
 module.exports = app;

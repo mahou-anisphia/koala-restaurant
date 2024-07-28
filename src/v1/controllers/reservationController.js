@@ -149,7 +149,9 @@ class ReservationController {
           .status(200)
           .json({ message: "Reservation deleted successfully" });
       } else {
-        return res.status(404).json({ message: "Reservation not found" });
+        return res.status(404).json({
+          message: "Reservation not found",
+        });
       }
     } catch (error) {
       console.error("Error in DeleteReservation:", error);

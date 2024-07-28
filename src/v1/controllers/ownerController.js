@@ -174,6 +174,7 @@ class OwnerController {
           .status(404)
           .json({ error: "There is no user in this location" });
       }
+
       const sanitizedUserList = userList.map((user) => {
         const { Password, ...userWithoutPassword } = user;
         return userWithoutPassword;
